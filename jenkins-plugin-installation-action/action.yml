@@ -2,7 +2,7 @@ name: 'jenkins-plugin-installation-action'
 description: 'Install the plugins to used in the Jenkins pipeline.'
 inputs:
   pluginstxt:
-    description: 'plugins.txt' relative location in the repository
+    description: plugins list relative location in the repository
     default: plugins.txt
     required: false
 runs:
