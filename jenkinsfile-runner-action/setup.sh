@@ -14,6 +14,7 @@ unzip ${JENKINS_ROOT}/jenkins.war -d ${JENKINS_ROOT}/jenkins
 
 if [ $# == 3 ]
 then
+    echo $CASC_JENKINS_CONFIG
     cp ${GITHUB_WORKSPACE}/$3 ${GITHUB_WORKSPACE}/jenkins/casc
 fi
 
