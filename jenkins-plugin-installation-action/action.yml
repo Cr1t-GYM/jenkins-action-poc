@@ -22,3 +22,7 @@ runs:
       if: steps.cache-jenkins.outputs.cache-hit != 'true'
       run: ${{github.action_path}}/setup.sh ${{inputs.pluginstxt}}
       shell: bash
+    - name: Cache results
+      if: steps.cache-jenkins.outputs.cache-hit == 'true'
+      run: echo "The cache is hit!"
+      shell: bash
