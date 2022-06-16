@@ -1,0 +1,14 @@
+name: Java CI
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: jenkins-plugin test
+    steps:
+      - uses: actions/checkout@v2
+      - name: Jenkins plugins download
+        id: jenkins_plugins_download
+        uses:
+          ./jenkins-plugin-installation-action
+        with:
+          pluginstxt: plugins.txt
