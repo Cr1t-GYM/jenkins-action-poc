@@ -7,10 +7,10 @@ JENKINS_JFR_URL=https://github.com/jenkinsci/jenkinsfile-runner/releases/downloa
 
 echo "Downloading Jenkinsfile-runner"
 curl -L ${JENKINS_JFR_URL} -o ${JENKINS_ROOT}/jenkinsfile-runner-${JFR_VERSION}.zip
-unzip ${JENKINS_ROOT}/jenkinsfile-runner-${JFR_VERSION}.zip -d ${JENKINS_ROOT}/jenkinsfile-runner-${JFR_VERSION}
+unzip -q ${JENKINS_ROOT}/jenkinsfile-runner-${JFR_VERSION}.zip -d ${JENKINS_ROOT}/jenkinsfile-runner-${JFR_VERSION}
 chmod +x ${JENKINS_ROOT}/jenkinsfile-runner-${JFR_VERSION}/bin/jenkinsfile-runner
 mkdir -p ${GITHUB_WORKSPACE}/jenkins/casc
-unzip ${JENKINS_ROOT}/jenkins.war -d ${JENKINS_ROOT}/jenkins
+unzip -q ${JENKINS_ROOT}/jenkins.war -d ${JENKINS_ROOT}/jenkins
 
 if [ $# == 3 ]
 then
