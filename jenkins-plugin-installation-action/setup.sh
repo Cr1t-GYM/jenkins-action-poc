@@ -7,6 +7,7 @@ JENKINS_PM_VERSION=2.5.0
 JENKINS_PM_URL=https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/${JENKINS_PM_VERSION}/jenkins-plugin-manager-${JENKINS_PM_VERSION}.jar
 
 # download Jenkins core
+mkdir JENKINS_ROOT
 echo "Downloading Jenkins core..."
 curl -L http://updates.jenkins.io/download/war/${JENKINS_VERSION}/jenkins.war -o ${JENKINS_ROOT}/jenkins.war
 
