@@ -13,7 +13,6 @@ git-server:latest
 jackson2-api:latest
 jsch:latest
 mailer:latest
-payload-dependencies:latest
 pipeline-input-step:latest
 pipeline-model-api:latest
 pipeline-model-definition:latest
