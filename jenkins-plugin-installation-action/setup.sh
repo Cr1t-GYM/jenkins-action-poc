@@ -18,7 +18,7 @@ if [$# = 1]
     # download plugins
     echo "Downloading plugins..."
     ls -al /github/workspace
-    java -jar ${JENKINS_ROOT}/jenkins-plugin-manager.jar --war jenkins.war --plugin-file /github/workflow/"$1" --plugin-download-directory=${JENKINS_ROOT}/plugins
+    java -jar ${JENKINS_ROOT}/jenkins-plugin-manager.jar --war jenkins.war --plugin-file ${GITHUB_WORKSPACE}"$1" --plugin-download-directory=${JENKINS_ROOT}/plugins
 then
 else
     echo "No plugins downloaded."

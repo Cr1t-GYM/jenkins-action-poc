@@ -13,5 +13,5 @@ runs:
         distribution: 'adopt'
         java-version: '8'
     - name: Download plugins
-      run: ${{github.action_path}}/jenkins-plugin-installation-action/setup.sh ${{inputs.pluginstxt}}
+      run: ${{github.action_path}}/setup.sh ${{inputs.pluginstxt}}
       shell: bash
