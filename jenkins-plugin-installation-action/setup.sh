@@ -20,7 +20,7 @@ then
 
     # download plugins
     echo "Downloading plugins..."
-    ls -al /github/workspace
+    ls -al ${GITHUB_WORKSPACE}
     java -jar ${JENKINS_ROOT}/jenkins-plugin-manager.jar --war jenkins.war --plugin-file ${GITHUB_WORKSPACE}"$1" --plugin-download-directory=${JENKINS_ROOT}/plugins
 else
     echo "No plugins downloaded."
