@@ -12,3 +12,10 @@ jobs:
           ./jenkins-plugin-installation-action
         with:
           pluginstxt: plugins.txt
+      - name: Run Jenkins pipeline
+        id: run_jenkins_pipeline
+        uses:
+          ./jenkinsfile-runner-action
+        with:
+          command: run
+          jenkinsfile: Jenkinsfile
