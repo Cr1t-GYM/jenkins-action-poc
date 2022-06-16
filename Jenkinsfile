@@ -8,7 +8,7 @@ pipeline {
         }
         stage('test casc env') {
             steps {
-                echo "JCasC env.PP: ${env.PP}"
+                echo "JCasC env.hello: ${env.hello}"
             }
         }
     }
