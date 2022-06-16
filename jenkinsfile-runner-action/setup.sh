@@ -10,6 +10,7 @@ curl -L ${JENKINS_JFR_URL} -o ${JENKINS_ROOT}/jenkinsfile-runner-${JFR_VERSION}.
 unzip ${JENKINS_ROOT}/jenkinsfile-runner-${JFR_VERSION}.zip -d ${JENKINS_ROOT}/jenkinsfile-runner-${JFR_VERSION}
 chmod +x ${JENKINS_ROOT}/jenkinsfile-runner-${JFR_VERSION}/bin/jenkinsfile-runner
 mkdir -p ${GITHUB_WORKSPACE}/jenkins/casc
+unzip ${JENKINS_ROOT}/jenkins.war -d ${JENKINS_ROOT}/jenkins
 
 if [ $# == 3 ]
 then
@@ -17,5 +18,5 @@ then
 fi
 
 echo "Executing the pipeline"
-echo "${JENKINS_ROOT}/jenkinsfile-runner-${JFR_VERSION}/bin/jenkinsfile-runner "$1" -w ${JENKINS_ROOT}/jenkins.war -p ${JENKINS_ROOT}/plugins -f $2"
-${JENKINS_ROOT}/jenkinsfile-runner-${JFR_VERSION}/bin/jenkinsfile-runner "$1" -w ${JENKINS_ROOT}/jenkins.war -p ${JENKINS_ROOT}/plugins -f $2
+echo "${JENKINS_ROOT}/jenkinsfile-runner-${JFR_VERSION}/bin/jenkinsfile-runner "$1" -w ${JENKINS_ROOT}/jenkins -p ${JENKINS_ROOT}/plugins -f $2"
+${JENKINS_ROOT}/jenkinsfile-runner-${JFR_VERSION}/bin/jenkinsfile-runner "$1" -w ${JENKINS_ROOT}/jenkins -p ${JENKINS_ROOT}/plugins -f $2
