@@ -19,5 +19,6 @@ runs:
         path: ${{github.workspace}}/jenkins
         key: ${{ runner.os }}-build
     - name: Download plugins
+      if: steps.cache-jenkins.outputs.cache-hit != 'true'
       run: ${{github.action_path}}/setup.sh ${{inputs.pluginstxt}}
       shell: bash
