@@ -12,7 +12,7 @@ mkdir -p ${JENKINS_ROOT}
 echo "Downloading Jenkins core..."
 curl -L ${JENKINS_CORE_URL} -o ${JENKINS_ROOT}/jenkins.war
 
-if [$# = 1]
+if [ $# == 1 ]
 then
     # download plugin manager
     echo "Downloading plugin manager..."
