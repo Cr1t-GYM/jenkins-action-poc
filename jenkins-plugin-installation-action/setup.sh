@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-JENKINS_ROOT=/jenkins
+JENKINS_ROOT=./jenkins
 JENKINS_VERSION=2.319.3
 JENKINS_PM_VERSION=2.5.0
 JENKINS_PM_URL=https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/${JENKINS_PM_VERSION}/jenkins-plugin-manager-${JENKINS_PM_VERSION}.jar
