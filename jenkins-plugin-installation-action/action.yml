@@ -12,6 +12,12 @@ runs:
       with:
         distribution: 'adopt'
         java-version: '8'
+    - uses: actions/cache@v3
+      id: cache-jenkins
+      name: Cache Jenkins
+      with:
+        path: ${{github.workspace}}/jenkins
+        key: ${{ runner.os }}-build
     - name: Download plugins
       run: ${{github.action_path}}/setup.sh ${{inputs.pluginstxt}}
       shell: bash
