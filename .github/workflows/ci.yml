@@ -26,7 +26,7 @@ jobs:
     container:
       image: jenkins/jenkinsfile-runner
     steps:
-      - uses: actions/checkout@v2
+      # - uses: actions/checkout@v2
       - name: Jenkins pipeline in the container
         id: jenkins_pipeline_container
         uses:
