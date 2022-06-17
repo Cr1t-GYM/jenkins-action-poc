@@ -1,48 +1,54 @@
 name: Java CI
 on: [push]
 jobs:
-  # jenkins-runtime-pipeline:
-  #   # Run all the actions in the on demand VM.
-  #   runs-on: ubuntu-latest
-  #   name: jenkins-runtime-pipeline-test
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Jenkins plugins download
-  #       id: jenkins_plugins_download
-  #       uses:
-  #         ./jenkins-plugin-installation-action
-  #       with:
-  #         pluginstxt: plugins.txt
-  #     - name: Run Jenkins pipeline
-  #       id: run_jenkins_pipeline
-  #       uses:
-  #         ./jenkinsfile-runner-action
-  #       with:
-  #         command: run
-  #         jenkinsfile: Jenkinsfile
-  #         jcasc: jcasc.yml
-  # jenkins-container-pipeline:
-  #   # Pull the Jenkinsfile-ruuner prebuilt container firstly and run all the actions in this container.
-  #   runs-on: ubuntu-latest
-  #   name: jenkins-prebuilt-container-test
-  #   container:
-  #     image: jenkins/jenkinsfile-runner
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Jenkins pipeline in the container
-  #       id: jenkins_pipeline_container
-  #       uses:
-  #         ./jfr-container-action
-  #       with:
-  #         command: run
-  #         jenkinsfile: Jenkinsfile
-  #         pluginstxt: plugins_container.txt
-  #         jcasc: jcasc.yml
+  jenkins-runtime-pipeline:
+    # Run all the actions in the on demand VM.
+    runs-on: ubuntu-latest
+    name: jenkins-runtime-pipeline-test
+    steps:
+      - uses: actions/checkout@v2
+      - name: Jenkins plugins download
+        id: jenkins_plugins_download
+        uses:
+          ./jenkins-plugin-installation-action
+        with:
+          pluginstxt: plugins.txt
+      - name: Run Jenkins pipeline
+        id: run_jenkins_pipeline
+        uses:
+          ./jenkinsfile-runner-action
+        with:
+          command: run
+          jenkinsfile: Jenkinsfile
+          jcasc: jcasc.yml
+  jenkins-container-pipeline:
+    # Pull the Jenkinsfile-ruuner prebuilt container firstly and run all the actions in this container.
+    runs-on: ubuntu-latest
+    name: jenkins-prebuilt-container-test
+    container:
+      image: jenkins/jenkinsfile-runner
+    steps:
+      - uses: actions/checkout@v2
+      - name: Jenkins pipeline in the container
+        id: jenkins_pipeline_container
+        uses:
+          ./jfr-container-action
+        with:
+          command: run
+          jenkinsfile: Jenkinsfile
+          pluginstxt: plugins_container.txt
+          jcasc: jcasc.yml
   jenkins-static-image-pipeline:
     runs-on: ubuntu-latest
     name: jenkins-static-image-pipeline-test
     steps:
+      # Run in the on demand VM. GitHub Action helps to map the workspace into the following container.
       - uses: actions/checkout@v2
+      # Cannot uses the node in the following container.
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14      
+      # Run in the Jenkins container which presents inside the on demand VM.
       - name: Jenkins pipeline with the static image
         id: jenkins_pipeline_image
         uses:
@@ -51,4 +57,9 @@ jobs:
           command: run
           jenkinsfile: Jenkinsfile
           pluginstxt: plugins_container.txt
-          jcasc: jcasc.yml        
+          jcasc: jcasc.yml      
+      # The Jenkins container ends with the Jenkins Action.
+      # Run the following action in the on demand VM.
+      - name: Test System version
+        run: grep -oP 'VERSION=.* \K\w* \w*' /etc/os-release
+        shell: bash
