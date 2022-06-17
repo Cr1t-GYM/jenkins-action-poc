@@ -5,6 +5,8 @@ echo "Set up Jenkins war package."
 cd /app/jenkins && jar -cvf jenkins.war *
 
 echo "Download plugins."
+ls -al .
+echo "java -jar /app/bin/jenkins-plugin-manager.jar --war /app/jenkins/jenkins.war --plugin-file "$3" --plugin-download-directory=/usr/share/jenkins/ref/plugins"
 java -jar /app/bin/jenkins-plugin-manager.jar --war /app/jenkins/jenkins.war --plugin-file "$3" --plugin-download-directory=/usr/share/jenkins/ref/plugins
 
 if [ $# == 4 ]
