@@ -19,7 +19,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: find . -name "jenkins-action-poc"
+    - run: ls -al ${{github.workspace}}
       name: Find where to checkout
       shell: bash
     - name: Run Jenkins pipeline in the predefined container
