@@ -19,6 +19,8 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - run: find . -name "jenkins-action-poc"
+      name: Find where to checkout
     - name: Run Jenkins pipeline in the predefined container
       run: ./github/workspace/jfr-container-action/setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.pluginstxt}} ${{inputs.jcasc}}
       shell: bash
