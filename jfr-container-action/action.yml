@@ -1,0 +1,24 @@
+name: 'jfr-container-action'
+description: 'Run the Jenkins pipeline with Jenkinsfile-runner in the predefined container'
+inputs:
+  command:
+    description: Jenkinsfile-runner command, i.e; run or lint
+    default: run
+    required: false
+  jenkinsfile:
+    description: Jenkinsfile location to test
+    default: Jenkinsfile
+    required: true
+  pluginstxt:
+    description: plugins list relative location in the repository
+    default: plugins.txt
+    required: false   
+  jcasc:
+    description: Jenkins CasC file
+    required: false    
+runs:
+  using: "composite"
+  steps:
+    - name: Run Jenkins pipeline in the predefined container
+      run: ${{github.action_path}}/setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.pluginstxt}} ${{inputs.jcasc}}
+      shell: bash

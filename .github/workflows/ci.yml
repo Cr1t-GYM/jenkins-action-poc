@@ -1,22 +1,38 @@
 name: Java CI
 on: [push]
 jobs:
-  build:
+  # build:
+  #   runs-on: ubuntu-latest
+  #   name: jenkins-plugin test
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Jenkins plugins download
+  #       id: jenkins_plugins_download
+  #       uses:
+  #         ./jenkins-plugin-installation-action
+  #       with:
+  #         pluginstxt: plugins.txt
+  #     - name: Run Jenkins pipeline
+  #       id: run_jenkins_pipeline
+  #       uses:
+  #         ./jenkinsfile-runner-action
+  #       with:
+  #         command: run
+  #         jenkinsfile: Jenkinsfile
+  #         jcasc: jcasc.yml
+  jenkins-container-pipeline:
     runs-on: ubuntu-latest
-    name: jenkins-plugin test
+    name: jenkins-prebuilt-container-test
+    container:
+      image: jenkins/jenkinsfile-runner
     steps:
       - uses: actions/checkout@v2
-      - name: Jenkins plugins download
-        id: jenkins_plugins_download
+      - name: Jenkins pipeline in the container
+        id: jenkins_pipeline_container
         uses:
-          ./jenkins-plugin-installation-action
-        with:
-          pluginstxt: plugins.txt
-      - name: Run Jenkins pipeline
-        id: run_jenkins_pipeline
-        uses:
-          ./jenkinsfile-runner-action
+          ./jfr-container-action
         with:
           command: run
           jenkinsfile: Jenkinsfile
+          pluginstxt: plugins_container.txt
           jcasc: jcasc.yml
