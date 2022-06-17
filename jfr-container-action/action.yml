@@ -19,8 +19,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: ls ${GITHUB_ACTION_PATH}/setup.sh
-      shell: bash
     - name: Run Jenkins pipeline in the predefined container
       # TODO: This file needs to be put into the container. Otherwise it's hard to find the action path.
       run: ${GITHUB_ACTION_PATH}/setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.pluginstxt}} ${{inputs.jcasc}}
