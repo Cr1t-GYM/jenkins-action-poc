@@ -19,7 +19,8 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - run: ls ${GITHUB_ACTION_PATH}/setup.sh
     - name: Run Jenkins pipeline in the predefined container
       # TODO: This file needs to be put into the container. Otherwise it's hard to find the action path.
-      run: ./jfr-container-action/setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.pluginstxt}} ${{inputs.jcasc}}
+      run: ${GITHUB_ACTION_PATH}/setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.pluginstxt}} ${{inputs.jcasc}}
       shell: bash
