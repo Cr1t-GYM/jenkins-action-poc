@@ -2,6 +2,7 @@ name: Java CI
 on: [push]
 jobs:
   build:
+    # Run all the actions in the on demand VM.
     runs-on: ubuntu-latest
     name: jenkins-plugin test
     steps:
@@ -19,4 +20,21 @@ jobs:
         with:
           command: run
           jenkinsfile: Jenkinsfile
+          jcasc: jcasc.yml
+  jenkins-container-pipeline:
+    # Pull the Jenkinsfile-ruuner prebuilt container firstly and run all the actions in this container.
+    runs-on: ubuntu-latest
+    name: jenkins-prebuilt-container-test
+    container:
+      image: jenkins/jenkinsfile-runner
+    steps:
+      - uses: actions/checkout@v2
+      - name: Jenkins pipeline in the container
+        id: jenkins_pipeline_container
+        uses:
+          ./jfr-container-action
+        with:
+          command: run
+          jenkinsfile: Jenkinsfile
+          pluginstxt: plugins_container.txt
           jcasc: jcasc.yml
