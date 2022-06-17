@@ -20,5 +20,5 @@ runs:
   using: "composite"
   steps:
     - name: Run Jenkins pipeline in the predefined container
-      run: ${{github.action_path}}/setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.pluginstxt}} ${{inputs.jcasc}}
+      run: ./setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.pluginstxt}} ${{inputs.jcasc}}
       shell: bash
