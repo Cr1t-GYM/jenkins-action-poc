@@ -1,0 +1,26 @@
+name: 'jfr-static-image-action'
+description: 'Build the JFR static image and run the Jenkins pipeline with Jenkinsfile-runner in this built container'
+inputs:
+  command:
+    description: Jenkinsfile-runner command, i.e; run or lint
+    default: run
+    required: false
+  jenkinsfile:
+    description: Jenkinsfile location to test
+    default: Jenkinsfile
+    required: true
+  pluginstxt:
+    description: plugins list relative location in the repository
+    default: plugins.txt
+    required: false   
+  jcasc:
+    description: Jenkins CasC file
+    required: false    
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{inputs.command}}
+    - ${{inputs.jenkinsfile}}
+    - ${{inputs.pluginstxt}}
+    - ${{inputs.jcasc}}
