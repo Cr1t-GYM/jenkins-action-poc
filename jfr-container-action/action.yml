@@ -19,9 +19,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: pwd && ls -al .
-      name: Find where to checkout
+    - name: Run Jenkins pipeline in the predefined container
+      run: ./jfr-container-action/setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.pluginstxt}} ${{inputs.jcasc}}
       shell: bash
-    # - name: Run Jenkins pipeline in the predefined container
-    #   run: ./github/workspace/jfr-container-action/setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.pluginstxt}} ${{inputs.jcasc}}
-    #   shell: bash
