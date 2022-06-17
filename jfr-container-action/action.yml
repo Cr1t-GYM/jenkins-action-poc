@@ -20,5 +20,6 @@ runs:
   using: "composite"
   steps:
     - name: Run Jenkins pipeline in the predefined container
+      # TODO: This file needs to be put into the container. Otherwise it's hard to find the action path.
       run: ./jfr-container-action/setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.pluginstxt}} ${{inputs.jcasc}}
       shell: bash
