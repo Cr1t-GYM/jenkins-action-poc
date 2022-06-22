@@ -45,7 +45,7 @@ runs:
       run: ${GITHUB_ACTION_PATH}/setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.jcasc}}
       shell: bash
     - name: Upload pipeline Artifacts
-      if: ${{inputs.uploadLog}} == 'true'
+      if: ${{inputs.uploadLog == 'true'}}
       uses: actions/upload-artifact@v3
       with:
         name: pipeline-log
