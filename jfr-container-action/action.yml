@@ -15,7 +15,12 @@ inputs:
     required: false   
   jcasc:
     description: Jenkins CasC file
-    required: false    
+    required: false
+  uploadLog:
+    description: whether to upload the pipeline result
+    type: boolean
+    required: false
+    default: false    
 runs:
   using: "composite"
   steps:
@@ -40,6 +45,7 @@ runs:
       run: ${GITHUB_ACTION_PATH}/setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.jcasc}}
       shell: bash
     - name: Upload pipeline Artifacts
+      if: ${{inputs.uploadLog}} == 'true'
       uses: actions/upload-artifact@v3
       with:
         name: pipeline-log
