@@ -21,6 +21,7 @@ runs:
   steps:
     - name: Set up Jenkins war package
       run: jar -cvf /app/jenkins/jenkins.war /app/jenkins/*
+      shell: bash
     - uses: actions/cache@v3
       id: cache-jenkins
       name: Cache Jenkins
@@ -30,9 +31,11 @@ runs:
     - uses: Download plugins
       if: steps.cache-jenkins.outputs.cache-hit != 'true'
       run: ${GITHUB_ACTION_PATH}/download.sh ${{inputs.pluginstxt}}
+      shell: bash
     - uses: Move cache
       if: steps.cache-jenkins.outputs.cache-hit == 'true'
       run: cp -r ${GITHUB_WORKSPACE}/jenkins_new_plugins/* /usr/share/jenkins/ref/plugins
+      shell: bash
     - name: Run Jenkins pipeline in the predefined container
       run: ${GITHUB_ACTION_PATH}/setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.jcasc}}
       shell: bash
