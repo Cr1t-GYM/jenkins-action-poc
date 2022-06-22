@@ -12,11 +12,13 @@ pipeline {
             }
         }
         stage('write plain log text') {
-            script {
-                def log = currentBuild.rawBuild
-                def baos = new ByteArrayOutputStream()
-                log.getLogText().writeLogTo(0, baos)
-                println(baos.toString())
+            steps {
+                script {
+                    def log = currentBuild.rawBuild
+                    def baos = new ByteArrayOutputStream()
+                    log.getLogText().writeLogTo(0, baos)
+                    println(baos.toString())
+                }
             }
         }
     }
