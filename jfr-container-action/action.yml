@@ -39,3 +39,8 @@ runs:
     - name: Run Jenkins pipeline in the predefined container
       run: ${GITHUB_ACTION_PATH}/setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.jcasc}}
       shell: bash
+    - name: Upload pipeline Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: pipeline-log
+        path: /tmp/jenkinsfileRunner.tmp/jfr*.run/workspace/job
