@@ -20,13 +20,13 @@ runs:
   using: "composite"
   steps:
     - name: Set up Jenkins war package
-      run: jar -cvf /app/jenkins/jenkins.war /app/jenkins/* && mkdir -p ${GITHUB_WORKSPACE}/jenkins_new_plugins
+      run: jar -cvf /app/jenkins/jenkins.war /app/jenkins/* && mkdir -p /jenkins_new_plugins
       shell: bash
     - uses: actions/cache@v3
       id: cache-jenkins
       name: Cache Jenkins
       with:
-        path: ${GITHUB_WORKSPACE}/jenkins_new_plugins
+        path: /jenkins_new_plugins
         key: plugins-${{ hashFiles(inputs.pluginstxt) }}
     - name: Download plugins
       if: steps.cache-jenkins.outputs.cache-hit != 'true'
@@ -34,7 +34,7 @@ runs:
       shell: bash
     - name: Move cache
       if: steps.cache-jenkins.outputs.cache-hit == 'true'
-      run: cp ${GITHUB_WORKSPACE}/jenkins_new_plugins/* /usr/share/jenkins/ref/plugins
+      run: cp /jenkins_new_plugins/* /usr/share/jenkins/ref/plugins && ls -al /jenkins_new_plugins
       shell: bash
     - name: Run Jenkins pipeline in the predefined container
       run: ${GITHUB_ACTION_PATH}/setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.jcasc}}
