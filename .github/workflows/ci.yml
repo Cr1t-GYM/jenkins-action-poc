@@ -38,6 +38,7 @@ jobs:
           jenkinsfile: Jenkinsfile
           pluginstxt: plugins_container.txt
           jcasc: jcasc.yml
+          uploadLog: true
   jenkins-static-image-pipeline:
     runs-on: ubuntu-latest
     name: jenkins-static-image-pipeline-test
