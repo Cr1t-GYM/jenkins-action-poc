@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-mkdir -p ${GITHUB_WORKSPACE}/jenkins_new_plugins
 if [ $# == 1 ]
 then 
     echo "Download plugins."

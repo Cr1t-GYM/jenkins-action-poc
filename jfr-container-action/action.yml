@@ -20,7 +20,7 @@ runs:
   using: "composite"
   steps:
     - name: Set up Jenkins war package
-      run: jar -cvf /app/jenkins/jenkins.war /app/jenkins/*
+      run: jar -cvf /app/jenkins/jenkins.war /app/jenkins/* && mkdir -p ${GITHUB_WORKSPACE}/jenkins_new_plugins
       shell: bash
     - uses: actions/cache@v3
       id: cache-jenkins
