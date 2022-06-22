@@ -36,7 +36,7 @@ jobs:
         with:
           command: run
           jenkinsfile: Jenkinsfile
-          pluginstxt: plugins_container.txt
+          # pluginstxt: plugins_container.txt
           jcasc: jcasc.yml
   jenkins-static-image-pipeline:
     runs-on: ubuntu-latest
