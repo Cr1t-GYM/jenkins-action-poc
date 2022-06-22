@@ -27,7 +27,7 @@ runs:
       name: Cache Jenkins
       with:
         path: ${GITHUB_WORKSPACE}/jenkins_new_plugins
-        key: plugins-${{ hashFiles(${{inputs.command}}) }}
+        key: plugins-${{ hashFiles(inputs.pluginstxt) }}
     - name: Download plugins
       if: steps.cache-jenkins.outputs.cache-hit != 'true'
       run: ${GITHUB_ACTION_PATH}/download.sh ${{inputs.pluginstxt}}
