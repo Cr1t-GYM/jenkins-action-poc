@@ -37,7 +37,7 @@ jobs:
           command: run
           jenkinsfile: Jenkinsfile
           pluginstxt: plugins_container.txt
-          # jcasc: jcasc.yml
+          jcasc: jcasc.yml
   jenkins-static-image-pipeline:
     runs-on: ubuntu-latest
     name: jenkins-static-image-pipeline-test
