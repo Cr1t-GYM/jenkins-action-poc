@@ -11,5 +11,13 @@ pipeline {
                 echo "JCasC env.hello: ${env.hello}"
             }
         }
+        stage('write plain log text') {
+            script {
+                def log = currentBuild.rawBuild
+                def baos = new ByteArrayOutputStream()
+                log.getLogText().writeLogTo(0, baos)
+                println(baos.toString())
+            }
+        }
     }
 }
