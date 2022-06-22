@@ -28,11 +28,11 @@ runs:
       with:
         path: ${GITHUB_WORKSPACE}/jenkins_new_plugins
         key: plugins-${{ hashFiles('plugins.txt') }}
-    - uses: Download plugins
+    - name: Download plugins
       if: steps.cache-jenkins.outputs.cache-hit != 'true'
       run: ${GITHUB_ACTION_PATH}/download.sh ${{inputs.pluginstxt}}
       shell: bash
-    - uses: Move cache
+    - name: Move cache
       if: steps.cache-jenkins.outputs.cache-hit == 'true'
       run: cp -r ${GITHUB_WORKSPACE}/jenkins_new_plugins/* /usr/share/jenkins/ref/plugins
       shell: bash
