@@ -43,4 +43,4 @@ runs:
       uses: actions/upload-artifact@v3
       with:
         name: pipeline-log
-        path: /tmp/jenkinsfileRunner.tmp/jfr*.run/workspace/job
+        path: /jenkinsHome/jobs/job/builds/1
