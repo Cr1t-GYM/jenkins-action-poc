@@ -1,6 +1,3 @@
-properties(
-    compressBuildLog()
-)
 pipeline {
     agent any
     stages {

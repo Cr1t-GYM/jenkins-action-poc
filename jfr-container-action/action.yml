@@ -49,4 +49,4 @@ runs:
       uses: actions/upload-artifact@v3
       with:
         name: pipeline-log
-        path: /jenkinsHome/jobs/job/builds/1
+        path: /jenkinsHome/jobs/job/builds
