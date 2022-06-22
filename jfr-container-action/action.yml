@@ -11,7 +11,7 @@ inputs:
     required: true
   pluginstxt:
     description: plugins list relative location in the repository
-    # default: plugins.txt
+    default: plugins.txt
     required: false   
   jcasc:
     description: Jenkins CasC file
