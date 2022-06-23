@@ -1,6 +1,20 @@
 # jenkins-action-poc
 This is the POC of Jenkinsfile Runner Action for GitHub Actions in GSoC 2022.
 
+## Introduction
+Jenkinsfile Runner Action for GitHub Actions aims at providing one-time runtime context for Jenkins pipeline. The users are able to run the pipeline at the GitHub Actions by only providing the Jenkinsfile and the definition of GitHub workflow. This project is powered by [jenkinsfile-runner](https://github.com/jenkinsci/jenkinsfile-runner). 
+
+You can configure the pipeline environment by using other GitHub Actions or providing JCasC Yaml file powered by [configuration-as-code-plugin](https://www.jenkins.io/projects/jcasc/).
+
+## Pre-requisites
+The users need to create the workflow definition under the `.github/workflows` directory. Refer to the [example workflows](#example-workflows) for more details about these actions.
+
+## Inputs
+* `command` - The command to run the [jenkinsfile-runner](https://github.com/jenkinsci/jenkinsfile-runner). The supported commands are `run`, `lint`, `cli`, `generate-completion`, `version` and `help`. The default command is run.
+* `jenkinsfile` - The relative path to Jenkinsfile. The default file name is Jenkinsfile.
+* `pluginstxt` - The relative path to plugins list file. The default file name is plugins.txt.
+* `jcasc` - The relative path to Jenkins Configuration as Code Yaml file.
+
 ## How you can access these actions in your project?
 Reference these actions in your workflow definition.
 1. Cr1t-GYM/jenkins-action-poc/jenkins-plugin-installation-action@master
@@ -8,7 +22,10 @@ Reference these actions in your workflow definition.
 3. Cr1t-GYM/jenkins-action-poc/jfr-container-action@master
 4. Cr1t-GYM/jenkins-action-poc/jfr-static-image-action@master
 
-Example workflow definition.
+## Example workflows
+There are three common cases about how to play with these actions. Although the user interfaces are the same with each other, there are still some subtle differences.
+### Runtime action
+This case is realized by the combination of jenkins-plugin-installation-action and jenkinsfile-runner-action. It will download all the dependencies and run the pipeline at the runtime. Its main disadvantage is the possibility of suffering from the jenkins.io outage.
 ```Yaml
 name: Java CI
 on: [push]
@@ -17,12 +34,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      # jenkins-plugin-installation-action
       - name: Jenkins plugins download
         id: jenkins_plugins_download
         uses:
           Cr1t-GYM/jenkins-action-poc/jenkins-plugin-installation-action@master
         with:
           pluginstxt: plugins_min.txt
+      # jenkinsfile-runner-action
       - name: Run Jenkins pipeline
         id: run_jenkins_pipeline
         uses:
@@ -32,6 +51,85 @@ jobs:
           jenkinsfile: Jenkinsfile
           jcasc: jcasc_runtime.yml
 ```
+### Container job action
+This case is realized by jfr-container-action. If the job uses this action, it will run the Jenkins pipeline and other GitHub Actions in the prebuilt container provided by [jenkins/jenkinsfile-runner](https://hub.docker.com/r/jenkins/jenkinsfile-runner). The **extra prerequisite** of this action is that you need to declare the image usage of jenkins/jenkinsfile-runner at the start of the job.
+```Yaml
+name: Java CI
+on: [push]
+jobs:
+  jenkins-container-pipeline:
+    runs-on: ubuntu-latest
+    name: jenkins-prebuilt-container-test
+    container:
+      # prerequisite
+      image: jenkins/jenkinsfile-runner
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4.3
+        with:
+          maven-version: 3.6.3
+      # jfr-container-action
+      - name: Jenkins pipeline in the container
+        id: jenkins_pipeline_container
+        uses:
+          Cr1t-GYM/jenkins-action-poc/jfr-container-action@master
+        with:
+          command: run
+          jenkinsfile: Jenkinsfile
+          pluginstxt: plugins.txt
+          jcasc: jcasc.yml
+```
+Some users might want to configure the container environment. The recommendation is that you can extend the [jenkins/jenkinsfile-runner](https://hub.docker.com/r/jenkins/jenkinsfile-runner) vanilla image and then you need to build and push it to your own registry. Finnaly, you can replace the vanilla image with your own custimized image. The invocation of jfr-container-action is the same in this way.
+```Yaml
+name: Java CI
+on: [push]
+jobs:
+  jenkins-container-pipeline:
+    runs-on: ubuntu-latest
+    name: jenkins-prebuilt-container-test
+    container:
+      # prerequisite: extendance of jenkins/jenkinsfile-runner
+      image: path/to/your_own_image
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4.3
+        with:
+          maven-version: 3.6.3
+      # jfr-container-action
+      - name: Jenkins pipeline in the container
+        id: jenkins_pipeline_container
+        uses:
+          Cr1t-GYM/jenkins-action-poc/jfr-container-action@master
+        with:
+          command: run
+          jenkinsfile: Jenkinsfile
+          pluginstxt: plugins.txt
+          jcasc: jcasc.yml
+```
+### Docker container action
+This case is realized by jfr-static-image-action. This action has its own working environment. It won't have extra environment relationship with the on demand VM outside unless the user mounts other directories to the container (For example, checkout action if exists). After the docker action ends, this container will be deleted. The users may check the introduction of [Docker container action](https://docs.github.com/en/actions/creating-actions/creating-a-docker-container-action#introduction) before using this action.
+```Yaml
+name: Java CI
+on: [push]
+jobs:
+  jenkins-static-image-pipeline:
+    runs-on: ubuntu-latest
+    name: jenkins-static-image-pipeline-test
+    steps:
+      - uses: actions/checkout@v2
+      # jfr-static-image-action
+      - name: Jenkins pipeline with the static image
+        id: jenkins_pipeline_image
+        uses:
+          Cr1t-GYM/jenkins-action-poc/jfr-static-image-action@master
+        with:
+          command: run
+          jenkinsfile: Jenkinsfile
+          pluginstxt: plugins.txt
+          jcasc: jcasc.yml
+```
 
 ## A small demo about how to use these actions
-[Demo project](https://github.com/Cr1t-GYM/JekinsTest)
+The [Demo project](https://github.com/Cr1t-GYM/JekinsTest) can teach you how to build a SpringBoot project with these actions.
