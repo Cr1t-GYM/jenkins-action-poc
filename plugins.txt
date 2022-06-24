@@ -37,3 +37,4 @@ workflow-multibranch:latest
 workflow-scm-step:latest
 workflow-step-api:latest
 workflow-support:latest
+artifact-manager-s3:latest
