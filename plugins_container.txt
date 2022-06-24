@@ -1,1 +1,2 @@
 terraform
+artifact-manager-s3
