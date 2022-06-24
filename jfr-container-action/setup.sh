@@ -1,10 +1,16 @@
 #!/usr/bin/env bash
 set -e
 
+if [[ $# -lt 2 && $# -ge 4 ]]
+then
+    echo "Invalid parameters."
+    exit 1
+fi
+
 if [ $# == 3 ]
 then
     echo "Set up JCasC."
-    cp "$3" ${CASC_JENKINS_CONFIG}
+    cp "$3" "${CASC_JENKINS_CONFIG}"
 fi
 
 echo "Running Jenkins pipeline."
