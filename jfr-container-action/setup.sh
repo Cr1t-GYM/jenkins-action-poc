@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
 set -e
 
-echo "Set up Jenkins war package."
-jar -cvf /app/jenkins/jenkins.war /app/jenkins/*
+if [[ $# -lt 2 && $# -ge 4 ]]
+then
+    echo "Invalid parameters."
+    exit 1
+fi
 
-echo "Download plugins."
-java -jar /app/bin/jenkins-plugin-manager.jar --war /app/jenkins/jenkins.war --plugin-file "$3" --plugin-download-directory=/usr/share/jenkins/ref/plugins
-
-if [ $# == 4 ]
+if [ $# == 3 ]
 then
     echo "Set up JCasC."
-    cp "$4" ${CASC_JENKINS_CONFIG}
+    cp "$3" "${CASC_JENKINS_CONFIG}"
 fi
 
 echo "Running Jenkins pipeline."
-/app/bin/jenkinsfile-runner-launcher "$1" -w /app/jenkins -p /usr/share/jenkins/ref/plugins -f "$2"
+/app/bin/jenkinsfile-runner-launcher "$1" -w /app/jenkins -p /usr/share/jenkins/ref/plugins -f "$2" --runHome /jenkinsHome
