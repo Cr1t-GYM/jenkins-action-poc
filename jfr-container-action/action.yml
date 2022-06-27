@@ -50,7 +50,8 @@ runs:
       if: ${{inputs.cacheMaven == 'true'}}
       uses: actions/cache@v3
       with:
-        path: ~/.m2/repository
+        # TODO: need to hardcode home path here because home path will be overriden by GitHub to /github/home
+        path: /root/.m2/repository
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}      
     - name: Run Jenkins pipeline in the predefined container
       run: ${GITHUB_ACTION_PATH}/setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.jcasc}}
