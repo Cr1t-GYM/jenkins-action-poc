@@ -19,9 +19,9 @@ inputs:
 runs:
   using: 'docker'
   image: 'Dockerfile'
+  pre-entrypoint: 'setup.sh'
   args:
     - ${{inputs.command}}
     - ${{inputs.jenkinsfile}}
     - ${{inputs.pluginstxt}}
     - ${{inputs.jcasc}}
-  pre-entrypoint: 'setup.sh'
