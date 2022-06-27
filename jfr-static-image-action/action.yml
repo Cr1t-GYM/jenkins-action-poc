@@ -24,3 +24,4 @@ runs:
     - ${{inputs.jenkinsfile}}
     - ${{inputs.pluginstxt}}
     - ${{inputs.jcasc}}
+  pre-entrypoint: 'setup.sh'
