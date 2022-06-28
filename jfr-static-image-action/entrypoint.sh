@@ -2,7 +2,7 @@
 set -e
 
 echo "Download plugins."
-if [ $4 != "true" ]
+if [[ $4 != "true" ]]
 then
     java -jar /app/bin/jenkins-plugin-manager.jar --war /app/jenkins/jenkins.war --plugin-file "$3" --plugin-download-directory=jenkins_new_plugins
 fi
