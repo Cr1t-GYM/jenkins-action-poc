@@ -43,7 +43,7 @@ runs:
       uses: actions/cache@v3
       with:
         path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml','!jenkinsHome','!jenkins_new_plugins') }}    
+        key: ${{ runner.os }}-maven-${{ hashFiles('pom.xml') }}    
     - uses: docker/build-push-action@v3
       with:
         context: "${{github.action_path}}"
