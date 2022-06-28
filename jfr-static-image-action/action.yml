@@ -21,8 +21,8 @@ runs:
   steps:
     - uses: docker/build-push-action@v3
       with:
-        context: .
-        file: Dockerfile
+        context: ${GITHUB_ACTION_PATH}
+        file: ${GITHUB_ACTION_PATH}/Dockerfile
         tags: jenskinsfile-runner-github-actions:latest
         push: false
     - uses: addnab/docker-run-action@v3
