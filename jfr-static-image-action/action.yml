@@ -17,11 +17,24 @@ inputs:
     description: Jenkins CasC file
     required: false    
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  pre-entrypoint: 'setup.sh'
-  args:
-    - ${{inputs.command}}
-    - ${{inputs.jenkinsfile}}
-    - ${{inputs.pluginstxt}}
-    - ${{inputs.jcasc}}
+  using: "composite"
+  steps:
+    - uses: docker/build-push-action@v3
+      with:
+        context: .
+        file: Dockerfile
+        tags: jenskinsfile-runner-github-actions:latest
+        push: false
+    - uses: addnab/docker-run-action@v3
+      with: 
+        image: jenskinsfile-runner-github-actions:latest
+        shell: bash
+        run: /entrypoint.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.pluginstxt}} ${{inputs.jcasc}}
+  # using: 'docker'
+  # image: 'Dockerfile'
+  # pre-entrypoint: 'setup.sh'
+  # args:
+  #   - ${{inputs.command}}
+  #   - ${{inputs.jenkinsfile}}
+  #   - ${{inputs.pluginstxt}}
+  #   - ${{inputs.jcasc}}
