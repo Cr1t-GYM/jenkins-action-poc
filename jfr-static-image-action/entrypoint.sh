@@ -1,17 +1,12 @@
 #!/usr/bin/env bash
 set -e
 
-cd /work
-for var in "$@"
-do
-    echo "$var"
-done
 echo "Download plugins."
 if [ $4 != "true" ]
 then
     java -jar /app/bin/jenkins-plugin-manager.jar --war /app/jenkins/jenkins.war --plugin-file "$3" --plugin-download-directory=jenkins_new_plugins
 fi
-cp -r jenkins_new_plugins /usr/share/jenkins/ref/plugins
+cp -r jenkins_new_plugins /usr/share/jenkins/ref/plugins && ls -al jenkins_new_plugins
 
 if [[ $# == 5 && $5 != "" ]]
 then
