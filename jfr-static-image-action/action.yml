@@ -53,5 +53,5 @@ runs:
       with: 
         image: jenskinsfile-runner-github-actions:latest
         shell: bash
-        options: -v "${{ github.workspace }}":/work -v "~/.m2/repository":/root/.m2/repository
+        options: -v ${{ github.workspace }}:/work -v /github/home/.m2/repository:/root/.m2/repository
         run: /entrypoint.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.pluginstxt}} ${{steps.cache-jenkins.outputs.cache-hit}} ${{inputs.jcasc}}
