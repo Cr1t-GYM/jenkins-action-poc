@@ -30,7 +30,7 @@ runs:
   using: "composite"
   steps:
     - name: Set up cache and workspace
-      run: mkdir -p jenkinsHome jenkins_new_plugins /github/home/.m2/repository
+      run: mkdir -p jenkinsHome jenkins_new_plugins ${HOME}/.m2/repository && echo $HOME
       shell: bash
     - uses: actions/cache@v3
       id: cache-jenkins
@@ -42,7 +42,7 @@ runs:
       if: ${{inputs.cacheMaven == 'true'}}
       uses: actions/cache@v3
       with:
-        path: /github/home/.m2/repository
+        path: ${HOME}/.m2/repository
         key: ${{ runner.os }}-maven-${{ hashFiles('pom.xml') }}    
     - uses: docker/build-push-action@v3
       with:
@@ -53,5 +53,5 @@ runs:
       with: 
         image: jenskinsfile-runner-github-actions:latest
         shell: bash
-        options: -v ${{ github.workspace }}:/work -v /github/home/.m2/repository:/root/.m2/repository -w /work
+        options: -v ${{ github.workspace }}:/work -v ${HOME}/.m2/repository:/root/.m2/repository -w /work
         run: /entrypoint.sh "${{inputs.command}}" "${{inputs.jenkinsfile}}" "${{inputs.pluginstxt}}" "${{steps.cache-jenkins.outputs.cache-hit}}" "${{inputs.jcasc}}"
