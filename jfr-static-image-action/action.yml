@@ -23,7 +23,8 @@ runs:
       with:
         context: ./jfr-static-image-action
         containerfiles: ./jfr-static-image-action/Dockerfile
-        tags: jenskinsfile-runner-github-actions:latest
+        image: jenskinsfile-runner-github-actions
+        tags: latest
     - uses: addnab/docker-run-action@v3
       with: 
         image: jenskinsfile-runner-github-actions:latest
