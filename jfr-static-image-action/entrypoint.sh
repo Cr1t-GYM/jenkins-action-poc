@@ -4,9 +4,9 @@ set -e
 echo "Download plugins."
 if [[ $4 != "true" ]]
 then
-    java -jar /app/bin/jenkins-plugin-manager.jar --war /app/jenkins/jenkins.war --plugin-file "$3" --plugin-download-directory=jenkins_new_plugins
+    java -jar /app/bin/jenkins-plugin-manager.jar --war /app/jenkins/jenkins.war --plugin-file "$3" --plugin-download-directory=/jenkins_new_plugins
 fi
-cp -r jenkins_new_plugins /usr/share/jenkins/ref/plugins && ls -al jenkins_new_plugins
+cp -r /jenkins_new_plugins /usr/share/jenkins/ref/plugins && ls -al /jenkins_new_plugins
 
 if [[ $# == 5 && $5 != "" ]]
 then
@@ -15,4 +15,4 @@ then
 fi
 
 echo "Running Jenkins pipeline."
-/app/bin/jenkinsfile-runner-launcher "$1" -w /app/jenkins -p /usr/share/jenkins/ref/plugins -f "$2" --runHome jenkinsHome
+/app/bin/jenkinsfile-runner-launcher "$1" -w /app/jenkins -p /usr/share/jenkins/ref/plugins -f "$2" --runHome /jenkinsHome
