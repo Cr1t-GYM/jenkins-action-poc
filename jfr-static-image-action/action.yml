@@ -28,6 +28,7 @@ runs:
       with: 
         image: jenskinsfile-runner-github-actions:latest
         shell: bash
+        options: -v ${{ github.workspace }}:/work
         run: /entrypoint.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.pluginstxt}} ${{inputs.jcasc}}
   # using: 'docker'
   # image: 'Dockerfile'
