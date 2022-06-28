@@ -55,3 +55,4 @@ runs:
         shell: bash
         options: -v ${{ github.workspace }}:/work -v /github/home/.m2/repository:/root/.m2/repository -w /work
         run: /entrypoint.sh "${{inputs.command}}" "${{inputs.jenkinsfile}}" "${{inputs.pluginstxt}}" "${{steps.cache-jenkins.outputs.cache-hit}}" "${{inputs.jcasc}}"
+    - run: ls -al ~/.m2/repository && ls -al /github/home/.m2/repository
