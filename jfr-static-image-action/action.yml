@@ -37,13 +37,13 @@ runs:
       name: Cache Jenkins
       with:
         path: jenkins_new_plugins
-        key: ${{ runner.os }}-plugins-${{ hashFiles(inputs.pluginstxt) }}
+        key: plugins-${{ hashFiles(inputs.pluginstxt) }}
     - name: Cache Maven
       if: ${{inputs.cacheMaven == 'true'}}
       uses: actions/cache@v3
       with:
         path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}    
+        key: maven-${{ hashFiles('**/pom.xml') }}    
     - uses: docker/build-push-action@v3
       with:
         context: "${{github.action_path}}"
