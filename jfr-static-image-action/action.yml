@@ -20,6 +20,7 @@ runs:
   using: "composite"
   steps:
     - uses: redhat-actions/buildah-build@v2.10
+      id: builder
       with:
         context: ./jfr-static-image-action
         containerfiles: ./jfr-static-image-action/Dockerfile
@@ -29,7 +30,7 @@ runs:
       shell: bash
     - uses: addnab/docker-run-action@v3
       with: 
-        image: jenskinsfile-runner-github-actions:latest
+        image: ${{ steps.builder.outputs.image-with-tag }}
         shell: bash
         run: /entrypoint.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.pluginstxt}} ${{inputs.jcasc}}
   # using: 'docker'
