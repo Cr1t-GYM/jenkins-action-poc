@@ -19,12 +19,10 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: cd ${{github.action_path}}
-      shell: bash
     - uses: redhat-actions/buildah-build@v2.10
       with:
-        context: .
-        containerfiles: Dockerfile
+        context: ./jfr-static-image-action
+        containerfiles: ./jfr-static-image-action/Dockerfile
         tags: jenskinsfile-runner-github-actions:latest
     - uses: addnab/docker-run-action@v3
       with: 
