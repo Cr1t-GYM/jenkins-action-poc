@@ -2,7 +2,10 @@
 set -e
 
 cd /work
-
+for var in "$@"
+do
+    echo "$var"
+done
 echo "Download plugins."
 if [ $4 != "true" ]
 then
