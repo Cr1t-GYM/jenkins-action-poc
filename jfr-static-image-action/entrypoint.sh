@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-cd /work
-pwd && ls -al
+cd /work && mkdir jenkinsHome
 echo "Download plugins."
 java -jar /app/bin/jenkins-plugin-manager.jar --war /app/jenkins/jenkins.war --plugin-file "$3" --plugin-download-directory=/usr/share/jenkins/ref/plugins
 
