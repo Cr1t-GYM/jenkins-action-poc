@@ -16,9 +16,34 @@ inputs:
   jcasc:
     description: Jenkins CasC file
     required: false    
+  uploadLog:
+    description: whether to upload the pipeline result
+    type: boolean
+    required: false
+    default: false
+  cacheMaven:
+    description: whether to cache maven dependencies
+    type: boolean
+    required: false
+    default: false    
 runs:
   using: "composite"
   steps:
+    - name: Set up cache and workspace
+      run: mkdir -p jenkinsHome jenkins_new_plugins ~/.m2/repository
+      shell: bash
+    - uses: actions/cache@v3
+      id: cache-jenkins
+      name: Cache Jenkins
+      with:
+        path: jenkins_new_plugins
+        key: ${{ runner.os }}-plugins-${{ hashFiles(inputs.pluginstxt) }}
+    - name: Cache Maven
+      if: ${{inputs.cacheMaven == 'true'}}
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}    
     - uses: docker/build-push-action@v3
       with:
         context: "${{github.action_path}}"
@@ -29,12 +54,4 @@ runs:
         image: jenskinsfile-runner-github-actions:latest
         shell: bash
         options: -v ${{ github.workspace }}:/work
-        run: /entrypoint.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.pluginstxt}} ${{inputs.jcasc}}
-  # using: 'docker'
-  # image: 'Dockerfile'
-  # pre-entrypoint: 'setup.sh'
-  # args:
-  #   - ${{inputs.command}}
-  #   - ${{inputs.jenkinsfile}}
-  #   - ${{inputs.pluginstxt}}
-  #   - ${{inputs.jcasc}}
+        run: /entrypoint.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.pluginstxt}} steps.cache-jenkins.outputs.cache-hit ${{inputs.jcasc}}
