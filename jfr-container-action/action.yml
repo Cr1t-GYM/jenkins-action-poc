@@ -37,7 +37,7 @@ runs:
       name: Cache Jenkins
       with:
         path: /jenkins_new_plugins
-        key: plugins-${{ hashFiles(inputs.pluginstxt) }}
+        key: ${{ runner.os }}-plugins-${{ hashFiles(inputs.pluginstxt) }}
     - name: Download plugins
       if: steps.cache-jenkins.outputs.cache-hit != 'true'
       run: ${GITHUB_ACTION_PATH}/download.sh ${{inputs.pluginstxt}}
@@ -52,7 +52,7 @@ runs:
       with:
         # TODO: need to hardcode home path here because home path will be overriden by GitHub to /github/home
         path: /root/.m2/repository
-        key: maven-${{ hashFiles('**/pom.xml') }}      
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}      
     - name: Run Jenkins pipeline in the predefined container
       run: ${GITHUB_ACTION_PATH}/setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.jcasc}}
       shell: bash
