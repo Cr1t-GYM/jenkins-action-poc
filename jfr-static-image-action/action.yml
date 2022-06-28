@@ -25,6 +25,8 @@ runs:
         containerfiles: ./jfr-static-image-action/Dockerfile
         image: jenskinsfile-runner-github-actions
         tags: latest
+    - run: docker images
+      shell: bash
     - uses: addnab/docker-run-action@v3
       with: 
         image: jenskinsfile-runner-github-actions:latest
