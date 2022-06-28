@@ -21,8 +21,8 @@ runs:
   steps:
     - uses: redhat-actions/buildah-build@v2.10
       with:
-        context: ${GITHUB_ACTION_PATH}
-        containerfiles: ${GITHUB_ACTION_PATH}/Dockerfile
+        context: ${{github.action_path}}
+        containerfiles: ${{github.action_path}}/Dockerfile
         tags: jenskinsfile-runner-github-actions:latest
     - uses: addnab/docker-run-action@v3
       with: 
