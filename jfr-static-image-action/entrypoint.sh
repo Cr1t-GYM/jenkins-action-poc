@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
+cd /app/jenkins && jar -cvf jenkins.war * && cd /work
 echo "Download plugins."
 if [[ $4 != "true" ]]
 then

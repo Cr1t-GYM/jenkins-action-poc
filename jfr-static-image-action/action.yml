@@ -44,14 +44,9 @@ runs:
       with:
         path: /home/runner/.m2/repository
         key: ${{ runner.os }}-maven-${{ hashFiles('pom.xml') }}    
-    - uses: docker/build-push-action@v3
-      with:
-        context: "${{github.action_path}}"
-        tags: jenskinsfile-runner-github-actions:latest
-        push: false
     - uses: addnab/docker-run-action@v3
       with: 
-        image: jenskinsfile-runner-github-actions:latest
+        image: jenkins/jenkinsfile-runner:latest
         shell: bash
-        options: -v ${{ github.workspace }}:/work -v /home/runner/.m2/repository:/root/.m2/repository -w /work
-        run: /entrypoint.sh "${{inputs.command}}" "${{inputs.jenkinsfile}}" "${{inputs.pluginstxt}}" "${{steps.cache-jenkins.outputs.cache-hit}}" "${{inputs.jcasc}}"
+        options: -v ${{ github.workspace }}:/work -v /home/runner/.m2/repository:/root/.m2/repository -v ${{github.action_path}}:/action -w /work
+        run: /action/entrypoint.sh "${{inputs.command}}" "${{inputs.jenkinsfile}}" "${{inputs.pluginstxt}}" "${{steps.cache-jenkins.outputs.cache-hit}}" "${{inputs.jcasc}}"
