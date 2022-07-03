@@ -46,7 +46,7 @@ Reference these actions in your workflow definition.
    4. If you use jfr-container-action, you need to call `Cr1t-GYM/jenkins-action-poc/jfr-container-action@master` and give necessary inputs. If you use jfr-static-image-action, you need to call `Cr1t-GYM/jenkins-action-poc/jfr-static-image-action@master` and give necessary inputs. See the [examples](#example-workflows) for these two actions.
 
 ## Example workflows
-There are three common cases about how to play with these actions. Although the user interfaces are the same with each other, there are still some subtle differences. The runtime actions are deprecated now. The users can use the [jfr-container-action](#container-job-action) and [jfr-static-image-action](#docker-container-action).
+There are three common cases about how to play with these actions. Although the user interfaces are similar to each other, there are still some subtle differences. The runtime actions are deprecated now. The users can use the [jfr-container-action](#container-job-action) and [jfr-static-image-action](#docker-container-action).
 ### Container job action
 This case is realized by jfr-container-action. If the job uses this action, it will run the Jenkins pipeline and other GitHub Actions in the prebuilt container provided by [jenkins/jenkinsfile-runner](https://hub.docker.com/r/jenkins/jenkinsfile-runner). The **extra prerequisite** of this action is that you need to declare the image usage of jenkins/jenkinsfile-runner at the start of the job.
 ```Yaml
