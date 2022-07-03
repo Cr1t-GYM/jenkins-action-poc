@@ -15,7 +15,7 @@ The users need to create the workflow definition under the `.github/workflows` d
 * `command` - The command to run the [jenkinsfile-runner](https://github.com/jenkinsci/jenkinsfile-runner). The supported commands are `run`, `lint`, `cli`, `generate-completion`, `version` and `help`. The default command is run.
 * `jenkinsfile` - The relative path to Jenkinsfile. The default file name is Jenkinsfile. You can check [the official manual about Jenkinsfile](https://www.jenkins.io/doc/book/pipeline/syntax/).
 * `pluginstxt` - The relative path to plugins list file. The default file name is plugins.txt. You can check [the valid plugin input format](https://github.com/jenkinsci/plugin-installation-manager-tool#plugin-input-format). You can also refer to the [plugins.txt](plugins.txt) in this repository.
-* `jcasc` - The relative path to Jenkins Configuration as Code Yaml file. You can refer to the [demos](https://github.com/jenkinsci/configuration-as-code-plugin/tree/master/demos) provided by `configuration-as-code-plugin` and learn how to configure the Jenkins instance without using UI page.
+* `jcasc` - The relative path to Jenkins Configuration as Code YAML file. You can refer to the [demos](https://github.com/jenkinsci/configuration-as-code-plugin/tree/master/demos) provided by `configuration-as-code-plugin` and learn how to configure the Jenkins instance without using UI page.
 
 ## How you can access these actions in your project?
 Reference these actions in your workflow definition.
