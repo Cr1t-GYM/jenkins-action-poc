@@ -127,7 +127,7 @@ jobs:
           jcasc: jcasc.yml
 ```
 ### Runtime action (Deprecated)
-This case is realized by the combination of jenkins-plugin-installation-action and jenkinsfile-runner-action. It will download all the dependencies and run the pipeline at the runtime. Its main disadvantage is the possibility of suffering from the jenkins.io outage.
+This case is realized by the combination of jenkins-plugin-installation-action and jenkinsfile-runner-action. It will download all the dependencies and run the pipeline at the runtime. Its main disadvantage is the possibility of suffering from a plugins.jenkins.io outage.
 ```Yaml
 name: Java CI
 on: [push]
