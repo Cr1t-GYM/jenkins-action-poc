@@ -6,8 +6,6 @@ Jenkinsfile Runner Action for GitHub Actions aims at providing one-time runtime 
 
 You can configure the pipeline environment by using other GitHub Actions or providing JCasC Yaml file powered by [configuration-as-code-plugin](https://www.jenkins.io/projects/jcasc/).
 
-This project is only a simple use case of Jenkinsfile-runner which uses GitHub Actions as a FaaS context. If the users have such a need, they can deploy it to any FaaS contexts for one time job such as AWS Function and Azure Function.
-
 ## Pre-requisites
 The users need to create the workflow definition under the `.github/workflows` directory. Refer to the [example workflows](#example-workflows) for more details about these actions.
 
