@@ -39,7 +39,7 @@ runs:
       shell: bash
     - name: Move cache
       if: steps.cache-jenkins.outputs.cache-hit == 'true'
-      run: ls -al /jenkins_new_plugins && cp -r /jenkins_new_plugins /usr/share/jenkins/ref/plugins
+      run: ls -al /jenkins_new_plugins && cp -r /jenkins_new_plugins/* /usr/share/jenkins/ref/plugins
       shell: bash
     - name: Run Jenkins pipeline in the predefined container
       run: ${GITHUB_ACTION_PATH}/setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.jcasc}}
