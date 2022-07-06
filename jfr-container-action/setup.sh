@@ -14,4 +14,5 @@ then
 fi
 
 echo "Running Jenkins pipeline."
+ls -al /usr/share/jenkins/ref/plugins
 /app/bin/jenkinsfile-runner-launcher "$1" -w /app/jenkins -p /usr/share/jenkins/ref/plugins -f "$2" --runHome /jenkinsHome
