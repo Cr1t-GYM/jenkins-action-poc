@@ -51,8 +51,31 @@ We only compare `jfr-container-action` and `jfr-static-image-action` here becaus
         container:
           image: jenkins/jenkinsfile-runner             
    ```   
-   3. Call the `actions/checkout@v2` to pull your codes into the runner.
-   4. If you use jfr-container-action, you need to call `Cr1t-GYM/jenkins-action-poc/jfr-container-action@master` and give necessary inputs. If you use jfr-static-image-action, you need to call `Cr1t-GYM/jenkins-action-poc/jfr-static-image-action@master` and give necessary inputs. See the [examples](#example-workflows) for these two actions.
+   3. Call the `actions/checkout@v2` to pull your codes into the runner. "Call" means `uses` in the workflow definition specifically. You can check [the details about "uses" keyword](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsuses).
+   ```Yaml
+   - uses: actions/checkout@v2
+   ```
+   4. Call the Jenkinsfile-runner actions.
+      1. If you use jfr-container-action, you need to call `Cr1t-GYM/jenkins-action-poc/jfr-container-action@master` and give necessary inputs.
+      ```Yaml
+        uses:
+          Cr1t-GYM/jenkins-action-poc/jfr-container-action@master
+        with:
+          command: run
+          jenkinsfile: Jenkinsfile
+          pluginstxt: plugins.txt
+          jcasc: jcasc.yml      
+      ```
+      2.  If you use jfr-static-image-action, you need to call `Cr1t-GYM/jenkins-action-poc/jfr-static-image-action@master` and give necessary inputs. See the [examples](#example-workflows) for these two actions.
+      ```Yaml
+        uses:
+          Cr1t-GYM/jenkins-action-poc/jfr-container-action@master
+        with:
+          command: run
+          jenkinsfile: Jenkinsfile
+          pluginstxt: plugins.txt
+          jcasc: jcasc.yml      
+      ```
 
 ## Example workflows
 There are three common cases about how to play with these actions. Although the user interfaces are similar to each other, there are still some subtle differences. The runtime actions are deprecated now. The users can use the [jfr-container-action](#container-job-action) and [jfr-static-image-action](#docker-container-action).
