@@ -48,5 +48,5 @@ runs:
       with: 
         image: jenkins/jenkinsfile-runner:latest
         shell: bash
-        options: -v ${{ github.workspace }}:/work -v /home/runner/.m2/repository:/root/.m2/repository -v ${{github.action_path}}:/action -w /work
+        options: -v ${{ github.workspace }}:/work -v /home/runner/.m2/repository:/root/.m2/repository -v ${{github.action_path}}:/action -w /work -e ACTIONS_CACHE_URL -e GITHUB_REF
         run: /action/entrypoint.sh "${{inputs.command}}" "${{inputs.jenkinsfile}}" "${{inputs.pluginstxt}}" "${{steps.cache-jenkins.outputs.cache-hit}}" "${{inputs.jcasc}}"
