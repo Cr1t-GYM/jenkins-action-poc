@@ -22,6 +22,17 @@ Reference these actions in your workflow definition.
 3. Cr1t-GYM/jenkins-action-poc/jfr-container-action@master
 4. Cr1t-GYM/jenkins-action-poc/jfr-static-image-action@master
 
+## Actions Comparisons
+We only compare `jfr-container-action` and `jfr-static-image-action` here because the others are deprecated.
+
+| Comparables | jfr-container-action | jfr-static-image-action |
+| ----------- | ----------- | ----------- |
+| Do they run in the Jenkins container or run in the host machine? | It runs in the Jenkins container | It runs in the Jenkins container |
+| When will the Jenkins container start in users workflow? | It will start before all the actions start | It will start when jfr-static-image-action starts |
+| When will the Jenkins container end in users workflow? | It will end after all the actions end | It will end immediately after jfr-static-image-action ends |
+| Can it be used with other GitHub actions? | Yes | No, except `actions/checkout` to set up workspace |
+| Prerequisites | Needs to refer `jenkins/jenkinsfile-runner` or its extendance | No |
+
 ## Step by step usage
 1. Prepare a Jenkinsfile in your repository. You can check [the basic syntax of Jenkins pipeline definition](https://www.jenkins.io/doc/book/pipeline/syntax/).
 2. Prepare a workflow definition under the `.github/workflows` directory. You can check [the official manual](https://docs.github.com/en/actions) for more details.
