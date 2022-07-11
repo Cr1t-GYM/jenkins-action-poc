@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
+echo "$ACTIONS_CACHE_URL $GITHUB_REF"
+
 cd /app/jenkins && jar -cvf jenkins.war * && cd /work
 echo "Download plugins."
 if [[ $4 != "true" ]]
