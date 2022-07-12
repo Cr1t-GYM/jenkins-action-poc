@@ -24,14 +24,14 @@ runs:
   using: "composite"
   steps:
     - name: Set up Jenkins war package
-      run: jar -cvf /app/jenkins/jenkins.war /app/jenkins/* && mkdir -p /jenkins_new_plugins && mkdir -p /jenkinsHome
+      run: jar -cvf /app/jenkins/jenkins.war /app/jenkins/* && mkdir -p /jenkins_new_plugins && mkdir -p /jenkinsHome && echo ${{inputs.isPluginCacheHit}}
       shell: bash
     - name: Download plugins
-      if: inputs.isPluginCacheHit != 'true'
+      if: ${{inputs.isPluginCacheHit != 'true'}}
       run: ${GITHUB_ACTION_PATH}/download.sh ${{inputs.pluginstxt}}
       shell: bash
     - name: Move cache
-      if: inputs.isPluginCacheHit == 'true'
+      if: ${{inputs.isPluginCacheHit == 'true'}}
       run: ls -al /jenkins_new_plugins && cp -r /jenkins_new_plugins/* /usr/share/jenkins/ref/plugins
       shell: bash
     - name: Run Jenkins pipeline in the predefined container
