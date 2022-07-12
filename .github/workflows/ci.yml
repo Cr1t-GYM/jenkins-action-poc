@@ -50,7 +50,7 @@ jobs:
       - name: Upload pipeline Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: pipeline-log
+          name: jenkins-container-pipeline-log
           path: /jenkinsHome/jobs/job/builds
   jenkins-static-image-pipeline:
     runs-on: ubuntu-latest
@@ -68,3 +68,8 @@ jobs:
           jenkinsfile: Jenkinsfile
           pluginstxt: plugins_container.txt
           jcasc: jcasc.yml      
+      - name: Upload pipeline Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: jenkins-static-image-pipeline-log
+          path: jenkinsHome/jobs/job/builds          
