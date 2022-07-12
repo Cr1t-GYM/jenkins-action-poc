@@ -24,7 +24,7 @@ runs:
   using: "composite"
   steps:
     - name: Set up Jenkins war package
-      run: jar -cvf /app/jenkins/jenkins.war /app/jenkins/* && mkdir -p /jenkins_new_plugins && mkdir -p /jenkinsHome && echo ${{inputs.isPluginCacheHit}}
+      run: jar -cvf /app/jenkins/jenkins.war /app/jenkins/* && mkdir -p /jenkins_new_plugins && mkdir -p /jenkinsHome
       shell: bash
     - name: Download plugins
       if: ${{inputs.isPluginCacheHit != 'true'}}
