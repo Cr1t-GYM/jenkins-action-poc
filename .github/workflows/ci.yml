@@ -29,6 +29,13 @@ jobs:
       image: jenkins/jenkinsfile-runner
     steps:
       - uses: actions/checkout@v2
+      # Cache new plugins in /jenkins_new_plugins by hash(plugins.txt)
+      - uses: actions/cache@v3
+        id: cache-jenkins
+        name: Cache Jenkins
+        with:
+          path: /jenkins_new_plugins
+          key: ${{ runner.os }}-plugins-${{ hashFiles(plugins.txt) }}      
       - name: Jenkins pipeline in the container
         id: jenkins_pipeline_container
         uses:
@@ -38,7 +45,13 @@ jobs:
           jenkinsfile: Jenkinsfile
           pluginstxt: plugins_container.txt
           jcasc: jcasc.yml
-          uploadLog: true
+          isPluginCacheHit: steps.cache-jenkins.outputs.cache-hit
+      # Upload pipeline log in /jenkinsHome/jobs/job/builds
+      - name: Upload pipeline Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: pipeline-log
+          path: /jenkinsHome/jobs/job/builds
   jenkins-static-image-pipeline:
     runs-on: ubuntu-latest
     name: jenkins-static-image-pipeline-test
