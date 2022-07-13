@@ -18,7 +18,8 @@ inputs:
     required: false    
 runs:
   using: 'docker'
-  image: 'Dockerfile'
+  image: 'ghcr.io/cr1t-gym/jenkinsfile-runner-image-release-test:master'
+  entrypoint: entrypoint.sh
   args:
     - ${{inputs.command}}
     - ${{inputs.jenkinsfile}}
