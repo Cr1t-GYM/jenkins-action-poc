@@ -31,7 +31,7 @@ We only compare `jfr-container-action` and `jfr-static-image-action` here becaus
 | When will the Jenkins container start in users workflow? | It will start before all the actions start | It will start when jfr-static-image-action starts |
 | When will the Jenkins container end in users workflow? | It will end after all the actions end | It will end immediately after jfr-static-image-action ends |
 | Can it be used with other GitHub actions? | Yes | No, except `actions/checkout` to set up workspace |
-| Prerequisites | Needs to refer `jenkins/jenkinsfile-runner` or its extendance | No |
+| Prerequisites | Needs to refer `jenkins/jenkinsfile-runner` or its extended images | No |
 | Do they support installing new plugins? | Yes | Yes |
 | Do they support using configuraion-as-code-plugin? | Yes | Yes |
 
