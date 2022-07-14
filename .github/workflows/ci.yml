@@ -72,4 +72,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: jenkins-static-image-pipeline-log
-          path: jenkinsHome/jobs/job/builds          
+          path: jenkinsHome/jobs/job/builds
+         
