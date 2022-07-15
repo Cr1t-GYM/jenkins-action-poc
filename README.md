@@ -218,6 +218,46 @@ This feature is only available in `jfr-container-action`. By default, the plugin
           jcasc: jcasc.yml
           isPluginCacheHit: ${{steps.cache-jenkins-plugins.outputs.cache-hit}}
 ``` 
+### Pipeline log uploading service
+This feature is available for `jfr-container-action` and `jfr-static-image-action`. After you run the Jenkins pipeline, the pipeline log will be available in `/jenkinsHome/jobs/job/builds` for `jfr-container-action` and `jenkinsHome/jobs/job/builds` for `jfr-static-image-action`. Therefore, you are able to upload the log to the GitHub Action page by using `actions/upload-artifact`.
+
+Log uploading example for `jfr-container-action`.
+```Yaml
+      - name: Jenkins pipeline in the container
+        id: jenkins_pipeline_container
+        uses:
+          Cr1t-GYM/jenkins-action-poc/jfr-container-action@master
+        with:
+          command: run
+          jenkinsfile: Jenkinsfile
+          pluginstxt: plugins_container.txt
+          jcasc: jcasc.yml
+          isPluginCacheHit: ${{steps.cache-jenkins-plugins.outputs.cache-hit}}
+      # Upload pipeline log in /jenkinsHome/jobs/job/builds
+      - name: Upload pipeline Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: jenkins-container-pipeline-log
+          path: /jenkinsHome/jobs/job/builds
+```
+Log uploading example for `jfr-static-image-action`.
+```Yaml
+      - name: Jenkins pipeline with the static image
+        id: jenkins_pipeline_image
+        uses:
+          Cr1t-GYM/jenkins-action-poc/jfr-static-image-action@master
+        with:
+          command: run
+          jenkinsfile: Jenkinsfile
+          pluginstxt: plugins_container.txt
+          jcasc: jcasc.yml
+      # Upload pipeline log in jenkinsHome/jobs/job/builds      
+      - name: Upload pipeline Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: jenkins-static-image-pipeline-log
+          path: jenkinsHome/jobs/job/builds
+```
 
 ## A small demo about how to use these actions
 The [Demo project](https://github.com/Cr1t-GYM/JekinsTest) can teach you how to build a SpringBoot project with these actions.
