@@ -1,6 +1,26 @@
 # jenkins-action-poc
 This is the POC of Jenkinsfile Runner Action for GitHub Actions in GSoC 2022.
 
+## Table of Content
+- [jenkins-action-poc](#jenkins-action-poc)
+  - [Table of Content](#table-of-content)
+  - [Introduction](#introduction)
+  - [Pre-requisites](#pre-requisites)
+  - [Inputs](#inputs)
+    - [Shared Inputs](#shared-inputs)
+    - [jfr-static-image-action Unique Inputs](#jfr-static-image-action-unique-inputs)
+  - [How you can access these actions in your project?](#how-you-can-access-these-actions-in-your-project)
+  - [Actions Comparisons](#actions-comparisons)
+  - [Step by step usage](#step-by-step-usage)
+  - [Example workflows](#example-workflows)
+    - [Container job action](#container-job-action)
+    - [Docker container action](#docker-container-action)
+    - [Runtime action (Deprecated)](#runtime-action-deprecated)
+  - [Advanced usage](#advanced-usage)
+    - [Cache new installed plugins](#cache-new-installed-plugins)
+    - [Pipeline log uploading service](#pipeline-log-uploading-service)
+  - [A small demo about how to use these actions](#a-small-demo-about-how-to-use-these-actions)
+
 ## Introduction
 Jenkinsfile Runner Action for GitHub Actions aims at providing one-time runtime context for Jenkins pipeline. The users are able to run the pipeline in GitHub Actions by only providing the Jenkinsfile and the definition of GitHub workflow. This project is powered by [jenkinsfile-runner](https://github.com/jenkinsci/jenkinsfile-runner) mainly. The plugin downloading step is powered by [plugin-installation-manager-tool](https://github.com/jenkinsci/plugin-installation-manager-tool).
 
