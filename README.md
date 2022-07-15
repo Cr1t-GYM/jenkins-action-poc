@@ -35,7 +35,7 @@ We only compare `jfr-container-action` and `jfr-static-image-action` here becaus
 | When will the Jenkins container start in users workflow? | It will start before all the actions start | It will start when jfr-static-image-action starts |
 | When will the Jenkins container end in users workflow? | It will end after all the actions end | It will end immediately after jfr-static-image-action ends |
 | Can it be used with other GitHub actions? | Yes | No, except `actions/checkout` to set up workspace |
-| Prerequisites | Needs to refer `jenkins/jenkinsfile-runner` or its extended images | No |
+| Prerequisites | Needs to refer `ghcr.io/cr1t-gym/jenkinsfile-runner-image-release-test:master` or its extended images | No |
 | Do they support installing new plugins? | Yes | Yes |
 | Do they support using configuraion-as-code-plugin? | Yes | Yes |
 
@@ -49,13 +49,13 @@ We only compare `jfr-container-action` and `jfr-static-image-action` here becaus
       job-name:
         runs-on: ubuntu-latest   
    ```
-   2. If you use jfr-container-action, you need to declare using the `jenkins/jenkinsfile-runner` or any image extended it. If you use jfr-static-image-action, you can skip this step.
+   2. If you use jfr-container-action, you need to declare using the `ghcr.io/cr1t-gym/jenkinsfile-runner-image-release-test:master` or any image extended it. If you use jfr-static-image-action, you can skip this step.
    ```Yaml
    jobs:
       job-name:
         runs-on: ubuntu-latest
         container:
-          image: jenkins/jenkinsfile-runner             
+          image: ghcr.io/cr1t-gym/jenkinsfile-runner-image-release-test:master             
    ```   
    3. Call the `actions/checkout@v2` to pull your codes into the runner. "Call" means `uses` in the workflow definition specifically. You can check [the details about "uses" keyword](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsuses).
    ```Yaml
@@ -86,7 +86,7 @@ We only compare `jfr-container-action` and `jfr-static-image-action` here becaus
 ## Example workflows
 There are three common cases about how to play with these actions. Although the user interfaces are similar to each other, there are still some subtle differences. The runtime actions are deprecated now. The users can use the [jfr-container-action](#container-job-action) and [jfr-static-image-action](#docker-container-action).
 ### Container job action
-This case is realized by jfr-container-action. If the job uses this action, it will run the Jenkins pipeline and other GitHub Actions in the prebuilt container provided by [jenkins/jenkinsfile-runner](https://hub.docker.com/r/jenkins/jenkinsfile-runner). The **extra prerequisite** of this action is that you need to declare the image usage of jenkins/jenkinsfile-runner at the start of the job.
+This case is realized by jfr-container-action. If the job uses this action, it will run the Jenkins pipeline and other GitHub Actions in the prebuilt container provided by [ghcr.io/cr1t-gym/jenkinsfile-runner-image-release-test:master](https://github.com/Cr1t-GYM/Jenkinsfile-runner-image-release-test/pkgs/container/jenkinsfile-runner-image-release-test). The **extra prerequisite** of this action is that you need to declare the image usage of ghcr.io/cr1t-gym/jenkinsfile-runner-image-release-test:master at the start of the job.
 ```Yaml
 name: Java CI
 on: [push]
@@ -96,7 +96,7 @@ jobs:
     name: jenkins-prebuilt-container-test
     container:
       # prerequisite
-      image: jenkins/jenkinsfile-runner
+      image: ghcr.io/cr1t-gym/jenkinsfile-runner-image-release-test:master
     steps:
       - uses: actions/checkout@v2
       - name: Set up Maven
@@ -114,7 +114,7 @@ jobs:
           pluginstxt: plugins.txt
           jcasc: jcasc.yml
 ```
-Some users might want to configure the container environment. The recommendation is that you can extend the [jenkins/jenkinsfile-runner](https://hub.docker.com/r/jenkins/jenkinsfile-runner) vanilla image and then you need to build and push it to your own registry. Finnaly, you can replace the vanilla image with your own custimized image. The invocation of jfr-container-action is the same in this way.
+Some users might want to configure the container environment. The recommendation is that you can extend the [ghcr.io/cr1t-gym/jenkinsfile-runner-image-release-test:master](https://github.com/Cr1t-GYM/Jenkinsfile-runner-image-release-test/pkgs/container/jenkinsfile-runner-image-release-test) vanilla image and then you need to build and push it to your own registry. Finnaly, you can replace the vanilla image with your own custimized image. The invocation of jfr-container-action is the same in this way.
 ```Yaml
 name: Java CI
 on: [push]
@@ -123,7 +123,7 @@ jobs:
     runs-on: ubuntu-latest
     name: jenkins-prebuilt-container-test
     container:
-      # prerequisite: extendance of jenkins/jenkinsfile-runner
+      # prerequisite: extendance of ghcr.io/cr1t-gym/jenkinsfile-runner-image-release-test:master
       image: path/to/your_own_image
     steps:
       - uses: actions/checkout@v2
