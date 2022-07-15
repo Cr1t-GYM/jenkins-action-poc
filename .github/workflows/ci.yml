@@ -26,9 +26,16 @@ jobs:
     runs-on: ubuntu-latest
     name: jenkins-prebuilt-container-test
     container:
-      image: jenkins/jenkinsfile-runner
+      image: ghcr.io/cr1t-gym/jenkinsfile-runner-image-release-test:master
     steps:
       - uses: actions/checkout@v2
+      # Cache new plugins in /jenkins_new_plugins by hash(plugins.txt)
+      - uses: actions/cache@v3
+        id: cache-jenkins-plugins
+        name: Cache Jenkins plugins
+        with:
+          path: /jenkins_new_plugins
+          key: ${{ runner.os }}-plugins-${{ hashFiles('plugins.txt') }}      
       - name: Jenkins pipeline in the container
         id: jenkins_pipeline_container
         uses:
@@ -38,17 +45,19 @@ jobs:
           jenkinsfile: Jenkinsfile
           pluginstxt: plugins_container.txt
           jcasc: jcasc.yml
-          uploadLog: true
+          isPluginCacheHit: ${{steps.cache-jenkins-plugins.outputs.cache-hit}}
+      # Upload pipeline log in /jenkinsHome/jobs/job/builds
+      - name: Upload pipeline Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: jenkins-container-pipeline-log
+          path: /jenkinsHome/jobs/job/builds
   jenkins-static-image-pipeline:
     runs-on: ubuntu-latest
     name: jenkins-static-image-pipeline-test
     steps:
       # Run in the on demand VM. GitHub Action helps to map the workspace into the following container.
       - uses: actions/checkout@v2
-      # Cannot uses the node in the following container.
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 14      
       # Run in the Jenkins container which presents inside the on demand VM.
       - name: Jenkins pipeline with the static image
         id: jenkins_pipeline_image
@@ -59,8 +68,9 @@ jobs:
           jenkinsfile: Jenkinsfile
           pluginstxt: plugins_container.txt
           jcasc: jcasc.yml      
-      # The Jenkins container ends with the Jenkins Action.
-      # Run the following action in the on demand VM.
-      - name: Test System version
-        run: grep -oP 'VERSION=.* \K\w* \w*' /etc/os-release
-        shell: bash
+      - name: Upload pipeline Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: jenkins-static-image-pipeline-log
+          path: jenkinsHome/jobs/job/builds
+         
