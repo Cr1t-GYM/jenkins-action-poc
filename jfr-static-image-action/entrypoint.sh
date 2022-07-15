@@ -11,4 +11,6 @@ then
 fi
 
 echo "Running Jenkins pipeline."
-/app/bin/jenkinsfile-runner-launcher "$1" -w /app/jenkins -p /usr/share/jenkins/ref/plugins -f "$2"
+mkdir -p jenkinsHome
+/app/bin/jenkinsfile-runner-launcher "$1" -w /app/jenkins -p /usr/share/jenkins/ref/plugins -f "$2" --runHome jenkinsHome
+echo "The pipeline log is available at jenkinsHome/jobs/job/builds!"
