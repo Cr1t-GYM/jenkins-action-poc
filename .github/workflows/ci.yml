@@ -35,7 +35,7 @@ jobs:
         name: Cache Jenkins plugins
         with:
           path: /jenkins_new_plugins
-          key: ${{ runner.os }}-plugins-${{ hashFiles('plugins.txt') }}      
+          key: ${{ runner.os }}-plugins-${{ hashFiles('plugins_container.txt') }}      
       - name: Jenkins pipeline in the container
         id: jenkins_pipeline_container
         uses:
