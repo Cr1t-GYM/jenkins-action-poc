@@ -24,7 +24,7 @@ runs:
   using: "composite"
   steps:
     - name: Set up Jenkins war package
-      run: jar -cvf /app/jenkins/jenkins.war /app/jenkins/* && mkdir -p /jenkins_new_plugins && mkdir -p /jenkinsHome
+      run: jar -cvf /app/jenkins/jenkins.war /app/jenkins/* && mkdir -p /jenkins_new_plugins && mkdir -p /jenkinsHome && mkdir /app/jenkins/WEB-INF/groovy.init.d && cp ${GITHUB_ACTION_PATH}/init.groovy /app/jenkins/WEB-INF/groovy.init.d/
       shell: bash
     - name: Download plugins
       if: ${{inputs.isPluginCacheHit != 'true'}}
