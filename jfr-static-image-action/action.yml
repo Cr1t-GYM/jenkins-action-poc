@@ -23,6 +23,8 @@ runs:
       with:
         tags: users-defined-jenkins:latest
         push: false
+    - run: docker images
+      shell: bash
     - uses: addnab/docker-run-action@v3
       with:
         image: users-defined-jenkins:latest
