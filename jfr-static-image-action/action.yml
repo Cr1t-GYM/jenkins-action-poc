@@ -23,7 +23,7 @@ runs:
       with:
         tags: users-defined-jenkins:latest
         push: false
-        file: ${{github.action_path}}/Dockerfile
+        context: ${{github.action_path}}
     - run: docker images
       shell: bash
     - uses: addnab/docker-run-action@v3
