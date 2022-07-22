@@ -76,6 +76,9 @@ jobs:
   jenkins-static-image-pipeline-with-base-image:
     runs-on: ubuntu-latest
     name: jenkins-static-image-pipeline-with-base-image
+    strategy:
+      matrix:
+        baseImages: [nginx:latest, node:18.3.0-alpine3.16]
     steps:
       # Run in the on demand VM. GitHub Action helps to map the workspace into the following container.
       - uses: actions/checkout@v2
@@ -91,7 +94,7 @@ jobs:
           jenkinsfile: Jenkinsfile
           pluginstxt: plugins_container.txt
           jcasc: jcasc.yml
-          baseImage: nginx:latest      
+          baseImage: ${{ matrix.baseImages }}     
       - name: Upload pipeline Artifacts
         uses: actions/upload-artifact@v3
         with:
