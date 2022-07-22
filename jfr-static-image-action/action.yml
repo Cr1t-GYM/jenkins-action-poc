@@ -43,7 +43,7 @@ runs:
       with:
         image: users-defined-jenkins:latest
         shell: bash
-        options: -v ${{ github.workspace }}:/work -w /work --env-file <(env | grep '^INPUT_\|^GITHUB_\|^RUNNER_\|^ACTIONS_\|^JENKINS')
+        options: "-v ${{ github.workspace }}:/work -w /work --env-file <(env | grep '^INPUT_\|^GITHUB_\|^RUNNER_\|^ACTIONS_\|^JENKINS')"
         run: /entrypoint.sh "${{inputs.command}}" "${{inputs.jenkinsfile}}" "${{inputs.pluginstxt}}" "${{inputs.jcasc}}"
   # using: 'docker'
   # image: 'Dockerfile'
