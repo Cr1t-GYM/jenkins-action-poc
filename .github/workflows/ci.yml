@@ -73,4 +73,25 @@ jobs:
         with:
           name: jenkins-static-image-pipeline-log
           path: jenkinsHome/jobs/job/builds
-         
+  jenkins-static-image-pipeline-with-base-image:
+    runs-on: ubuntu-latest
+    name: jenkins-static-image-pipeline-with-base-image
+    steps:
+      # Run in the on demand VM. GitHub Action helps to map the workspace into the following container.
+      - uses: actions/checkout@v2
+      # Run in the Jenkins container which presents inside the on demand VM.
+      - name: Jenkins pipeline with the static image
+        id: jenkins_pipeline_image
+        uses:
+          ./jfr-static-image-action
+        with:
+          command: run
+          jenkinsfile: Jenkinsfile
+          pluginstxt: plugins_container.txt
+          jcasc: jcasc.yml
+          baseImage: nginx:latest      
+      - name: Upload pipeline Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: jenkins-static-image-pipeline-log
+          path: jenkinsHome/jobs/job/builds

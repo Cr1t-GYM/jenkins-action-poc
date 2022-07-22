@@ -15,15 +15,28 @@ inputs:
     required: false   
   jcasc:
     description: Jenkins CasC file
+    required: false
+  baseImage:
+    description: Jenkins Base Images. Default base image is ghcr.io/cr1t-gym/jenkinsfile-runner-image-release-test:master
     required: false    
 runs:
   using: "composite"
   steps:
     - uses: docker/build-push-action@v2
+      if: ${{inputs.baseImage == ''}}
       with:
         tags: users-defined-jenkins:latest
         push: false
         context: ${{github.action_path}}
+    - uses: docker/build-push-action@v2
+      if: ${{inputs.baseImage != ''}}
+      with:
+        tags: users-defined-jenkins:latest
+        push: false
+        context: ${{github.action_path}}
+        file: Dockerfile_mix
+        build-args: |
+          baseImage=${{inputs.baseImage}}      
     - run: docker images
       shell: bash
     - uses: addnab/docker-run-action@v3
