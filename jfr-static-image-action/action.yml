@@ -45,10 +45,5 @@ runs:
         shell: bash
         options: -v ${{ github.workspace }}:/work -w /work --env-file env.list
         run: /entrypoint.sh "${{inputs.command}}" "${{inputs.jenkinsfile}}" "${{inputs.pluginstxt}}" "${{inputs.jcasc}}"
-  # using: 'docker'
-  # image: 'Dockerfile'
-  # args:
-  #   - ${{inputs.command}}
-  #   - ${{inputs.jenkinsfile}}
-  #   - ${{inputs.pluginstxt}}
-  #   - ${{inputs.jcasc}}
+    - run: rm env.list
+      shell: bash
