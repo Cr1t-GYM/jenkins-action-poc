@@ -36,7 +36,7 @@ runs:
         context: ${{github.action_path}}
         file: ${{github.action_path}}/Dockerfile_mix
         build-args: |
-          baseImage=${{inputs.baseImage}}      
+          BASE_IMAGE=${{inputs.baseImage}}      
     - run: docker images
       shell: bash
     - uses: addnab/docker-run-action@v3
