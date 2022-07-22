@@ -34,7 +34,7 @@ runs:
         tags: users-defined-jenkins:latest
         push: false
         context: ${{github.action_path}}
-        file: {context}/Dockerfile_mix
+        file: ${{github.action_path}}/Dockerfile_mix
         build-args: |
           baseImage=${{inputs.baseImage}}      
     - run: docker images
