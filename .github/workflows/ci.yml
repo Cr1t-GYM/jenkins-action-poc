@@ -84,6 +84,8 @@ jobs:
         id: jenkins_pipeline_image
         uses:
           ./jfr-static-image-action
+        env:
+          JENKINS_AWS_KEY: 123456
         with:
           command: run
           jenkinsfile: Jenkinsfile
