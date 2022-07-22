@@ -37,13 +37,13 @@ runs:
         file: ${{github.action_path}}/Dockerfile_mix
         build-args: |
           BASE_IMAGE=${{inputs.baseImage}}      
-    - run: env
+    - run: (env | grep '^INPUT_\|^GITHUB_\|^RUNNER_\|^ACTIONS_\|^JENKINS') > env.list
       shell: bash
     - uses: addnab/docker-run-action@v3
       with:
         image: users-defined-jenkins:latest
         shell: bash
-        options: -v ${{ github.workspace }}:/work -w /work --env-file $(env | grep '^INPUT_\|^GITHUB_\|^RUNNER_\|^ACTIONS_\|^JENKINS')
+        options: -v ${{ github.workspace }}:/work -w /work --env-file env.list
         run: /entrypoint.sh "${{inputs.command}}" "${{inputs.jenkinsfile}}" "${{inputs.pluginstxt}}" "${{inputs.jcasc}}"
   # using: 'docker'
   # image: 'Dockerfile'
