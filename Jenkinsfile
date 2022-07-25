@@ -4,6 +4,7 @@ pipeline {
         stage('hello') {
             steps {
                 sh 'echo Hello Jenkins!'
+                sh 'echo $GITHUB_ACTION'
             }
         }
         stage('test casc env') {
