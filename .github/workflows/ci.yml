@@ -84,7 +84,7 @@ jobs:
       - uses: actions/checkout@v2
       # Run in the Jenkins container which presents inside the on demand VM.
       - name: Jenkins pipeline with the static image
-        id: jenkins_pipeline_image
+        id: jenkins_pipeline_base_image
         uses:
           ./jfr-static-image-action
         env:
