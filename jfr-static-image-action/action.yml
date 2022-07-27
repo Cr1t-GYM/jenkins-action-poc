@@ -51,7 +51,7 @@ runs:
     - uses: addnab/docker-run-action@v3
       with:
         image: users-defined-jenkins:latest
-        shell: sh
+        shell: bash
         options: -v ${{ github.workspace }}:/work -w /work --env-file env.list
         run: /entrypoint.sh "${{inputs.command}}" "${{inputs.jenkinsfile}}" "${{inputs.pluginstxt}}" "${{inputs.jcasc}}"
     - run: rm env.list
