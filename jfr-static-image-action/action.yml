@@ -29,14 +29,23 @@ runs:
         push: false
         context: ${{github.action_path}}
     - uses: docker/build-push-action@v2
-      if: ${{inputs.baseImage != ''}}
+      if: ${{inputs.baseImage != '' && !contains(inputs.baseImage, 'alpine')}}
       with:
         tags: users-defined-jenkins:latest
         push: false
         context: ${{github.action_path}}
         file: ${{github.action_path}}/Dockerfile_mix
         build-args: |
-          BASE_IMAGE=${{inputs.baseImage}}      
+          BASE_IMAGE=${{inputs.baseImage}}
+    - uses: docker/build-push-action@v2
+      if: ${{inputs.baseImage != '' && contains(inputs.baseImage, 'alpine')}}
+      with:
+        tags: users-defined-jenkins:latest
+        push: false
+        context: ${{github.action_path}}
+        file: ${{github.action_path}}/Dockerfile_alpine
+        build-args: |
+          BASE_IMAGE=${{inputs.baseImage}}          
     - run: (env | grep '^INPUT_\|^GITHUB_\|^RUNNER_\|^ACTIONS_\|^JENKINS') > env.list
       shell: bash
     - uses: addnab/docker-run-action@v3

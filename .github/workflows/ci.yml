@@ -80,7 +80,7 @@ jobs:
     name: jenkins-static-image-pipeline-with-base-image
     strategy:
       matrix:
-        baseImages: ['nginx:latest', 'node:18.3.0']
+        baseImages: ['nginx:latest', 'node:18.3.0', 'node:18-alpine']
     steps:
       # Run in the on demand VM. GitHub Action helps to map the workspace into the following container.
       - uses: actions/checkout@v2
