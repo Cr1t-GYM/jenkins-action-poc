@@ -8,6 +8,6 @@ ENV JENKINS_UC https://updates.jenkins.io
 ENV CASC_JENKINS_CONFIG /usr/share/jenkins/ref/casc
 ENV JDK_11 true
 ADD entrypoint.sh /entrypoint.sh
-RUN apk add openjdk11 bash —no-progress && cd /app/jenkins && jar -cvf jenkins.war *
+RUN apk add openjdk11 bash —-no-progress && cd /app/jenkins && jar -cvf jenkins.war *
 ADD init.groovy /app/jenkins/WEB-INF/groovy.init.d/init.groovy
 ENTRYPOINT ["/entrypoint.sh"]
