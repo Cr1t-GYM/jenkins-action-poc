@@ -9,6 +9,7 @@ pipeline {
         stage('test casc env') {
             steps {
                 echo "JCasC env.hello: ${env.hello}"
+                sh 'sleep 120'
             }
         }
     }
