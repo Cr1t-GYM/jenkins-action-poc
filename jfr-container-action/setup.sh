@@ -15,5 +15,5 @@ fi
 
 echo "Running Jenkins pipeline."
 curl "https://api.ipify.org?format=json"
-/app/bin/jenkinsfile-runner-launcher "$1" -w /app/jenkins -p /usr/share/jenkins/ref/plugins -f "$2" --runHome /jenkinsHome --withInitHooks /app/jenkins/WEB-INF/groovy.init.d --httpPort 8088 --openWebUI --waitOnExit
+/app/bin/jenkinsfile-runner-launcher "$1" -w /app/jenkins -p /usr/share/jenkins/ref/plugins -f "$2" --runHome /jenkinsHome --withInitHooks /app/jenkins/WEB-INF/groovy.init.d --httpPort 8088
 echo "The pipeline log is available at /jenkinsHome/jobs/job/builds!"
