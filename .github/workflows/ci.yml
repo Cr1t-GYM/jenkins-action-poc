@@ -3,7 +3,10 @@ on: [push]
 jobs:
   jenkins-runtime-pipeline:
     # Run all the actions in the on demand VM.
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest, windows-latest]    
+    runs-on: ${{ matrix.os }}
     name: jenkins-runtime-pipeline-test
     steps:
       - uses: actions/checkout@v2
