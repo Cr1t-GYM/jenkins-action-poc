@@ -8,6 +8,7 @@ This is the POC of Jenkinsfile Runner Action for GitHub Actions in GSoC 2022.
   - [Pre-requisites](#pre-requisites)
   - [Inputs](#inputs)
     - [Shared Inputs](#shared-inputs)
+    - [jfr-container-action Unique Inputs](#jfr-container-action-unique-inputs)
     - [jfr-static-image-action Unique Inputs](#jfr-static-image-action-unique-inputs)
   - [How you can access these actions in your project?](#how-you-can-access-these-actions-in-your-project)
   - [Actions Comparisons](#actions-comparisons)
@@ -19,6 +20,7 @@ This is the POC of Jenkinsfile Runner Action for GitHub Actions in GSoC 2022.
   - [Advanced usage](#advanced-usage)
     - [Cache new installed plugins](#cache-new-installed-plugins)
     - [Pipeline log uploading service](#pipeline-log-uploading-service)
+    - [Use your own base image as runtime](#use-your-own-base-image-as-runtime)
   - [A small demo about how to use these actions](#a-small-demo-about-how-to-use-these-actions)
 
 ## Introduction
@@ -36,8 +38,10 @@ These inputs are provided by all of our actions.
 * `jenkinsfile` - The relative path to Jenkinsfile. The default file name is Jenkinsfile. You can check [the official manual about Jenkinsfile](https://www.jenkins.io/doc/book/pipeline/syntax/).
 * `pluginstxt` - The relative path to plugins list file. The default file name is plugins.txt. You can check [the valid plugin input format](https://github.com/jenkinsci/plugin-installation-manager-tool#plugin-input-format). You can also refer to the [plugins.txt](plugins.txt) in this repository.
 * `jcasc` - The relative path to Jenkins Configuration as Code YAML file. You can refer to the [demos](https://github.com/jenkinsci/configuration-as-code-plugin/tree/master/demos) provided by `configuration-as-code-plugin` and learn how to configure the Jenkins instance without using UI page.
-### jfr-static-image-action Unique Inputs
+### jfr-container-action Unique Inputs
 * `isPluginCacheHit` - You can choose whether or not to cache new installed plugins outside. If users want to use `actions/cache` in the workflow, they can give the cache hit status as input in `isPluginCacheHit`. Default input is false.
+### jfr-static-image-action Unique Inputs
+* `baseImage` - You can choose your base runtime here. By default, it will use `openjdk:11-jdk` as the base image.
 
 ## How you can access these actions in your project?
 Reference these actions in your workflow definition.
@@ -58,6 +62,8 @@ We only compare `jfr-container-action` and `jfr-static-image-action` here becaus
 | Prerequisites | Needs to refer `ghcr.io/cr1t-gym/jenkinsfile-runner-image-release-test:master` or its extended images | No |
 | Do they support installing new plugins? | Yes | Yes |
 | Do they support using configuraion-as-code-plugin? | Yes | Yes |
+| Valid Environment Variables in the action | No Constraints | Must be started with JENKINS_ |
+| What kind of runners do it support? | Linux | Linux |
 
 ## Step by step usage
 1. Prepare a Jenkinsfile in your repository. You can check [the basic syntax of Jenkins pipeline definition](https://www.jenkins.io/doc/book/pipeline/syntax/).
@@ -119,10 +125,6 @@ jobs:
       image: ghcr.io/cr1t-gym/jenkinsfile-runner-image-release-test:master
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Maven
-        uses: stCarolas/setup-maven@v4.3
-        with:
-          maven-version: 3.6.3
       # jfr-container-action
       - name: Jenkins pipeline in the container
         id: jenkins_pipeline_container
@@ -147,10 +149,6 @@ jobs:
       image: path/to/your_own_image
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Maven
-        uses: stCarolas/setup-maven@v4.3
-        with:
-          maven-version: 3.6.3
       # jfr-container-action
       - name: Jenkins pipeline in the container
         id: jenkins_pipeline_container
@@ -252,7 +250,6 @@ Log uploading example for `jfr-container-action`.
           jenkinsfile: Jenkinsfile
           pluginstxt: plugins_container.txt
           jcasc: jcasc.yml
-          isPluginCacheHit: ${{steps.cache-jenkins-plugins.outputs.cache-hit}}
       # Upload pipeline log in /jenkinsHome/jobs/job/builds
       - name: Upload pipeline Artifacts
         uses: actions/upload-artifact@v3
@@ -277,6 +274,22 @@ Log uploading example for `jfr-static-image-action`.
         with:
           name: jenkins-static-image-pipeline-log
           path: jenkinsHome/jobs/job/builds
+```
+### Use your own base image as runtime
+This feature is only available in `jfr-static-image-action`. You can specify the base image in `baseImage`. For instance, if you want to use npm official image as the base runtime, you can specify 'node:18.3.0' as input and then you can use `npm` in your Jenkinsfile. An alternative way to implement is declaring in the JCasC.
+```Yaml
+      - name: Jenkins pipeline with the static image
+        id: jenkins_pipeline_base_image
+        uses:
+          ./jfr-static-image-action
+        env:
+          JENKINS_AWS_KEY: 123456
+        with:
+          command: run
+          jenkinsfile: Jenkinsfile
+          pluginstxt: plugins_container.txt
+          jcasc: jcasc.yml
+          baseImage: 'node:18.3.0'  
 ```
 
 ## A small demo about how to use these actions
