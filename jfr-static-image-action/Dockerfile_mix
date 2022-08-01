@@ -4,12 +4,12 @@ FROM $BASE_IMAGE
 COPY --from=cache /app /app
 COPY --from=cache /usr/share/jenkins/ref/plugins /usr/share/jenkins/ref/plugins
 COPY --from=cache /usr/share/jenkins/ref/casc /usr/share/jenkins/ref/casc
-COPY --from=cache /usr/local/openjdk-11 /usr/local/openjdk-11
-ENV JAVA_HOME /usr/local/openjdk-11
+COPY --from=cache /opt/java/openjdk /opt/java/openjdk
+ENV JAVA_HOME /opt/java/openjdk
 ENV JENKINS_UC https://updates.jenkins.io
 ENV CASC_JENKINS_CONFIG /usr/share/jenkins/ref/casc
 ENV JDK_11 true
-ENV PATH "/usr/local/openjdk-11/bin:${PATH}"
+ENV PATH "/opt/java/openjdk/bin:${PATH}"
 ADD entrypoint.sh /entrypoint.sh
 RUN cd /app/jenkins && jar -cvf jenkins.war *
 ADD init.groovy /app/jenkins/WEB-INF/groovy.init.d/init.groovy
