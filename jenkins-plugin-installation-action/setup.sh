@@ -25,7 +25,7 @@ if [ $# == 1 ]
 then
     # download plugin manager
     echo "Downloading plugin manager..."
-    wget $JENKINS_PM_URL -O ${JENKINS_ROOT}/jenkins-plugin-manager.jar
+    curl -L $JENKINS_PM_URL -o ${JENKINS_ROOT}/jenkins-plugin-manager.jar
 
     # download plugins
     echo "Downloading plugins..."
