@@ -12,8 +12,8 @@ runs:
       with:
         distribution: 'adopt'
         java-version: '8'
-    - run: ls "${{github.action_path}}"
+    - run: ls ${GITHUB_ACTION_PATH}
       shell: bash
     - name: Download plugins
-      run: "${{github.action_path}}"/setup.sh ${{inputs.pluginstxt}}
+      run: ${GITHUB_ACTION_PATH}/setup.sh ${{inputs.pluginstxt}}
       shell: bash
