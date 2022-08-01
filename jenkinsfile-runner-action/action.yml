@@ -17,6 +17,6 @@ runs:
   steps:
     - name: Run Jenkins pipeline
       env:
-        CASC_JENKINS_CONFIG: ${GITHUB_WORKSPACE}/jenkins/casc
+        CASC_JENKINS_CONFIG: jenkins/casc
       run: ${GITHUB_ACTION_PATH}/setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.jcasc}}
       shell: bash
