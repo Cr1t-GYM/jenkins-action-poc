@@ -17,7 +17,7 @@ inputs:
     description: Jenkins CasC file
     required: false
   baseImage:
-    description: Jenkins Base Images. Default base image is ghcr.io/cr1t-gym/jenkinsfile-runner-image-release-test:master
+    description: Jenkins Base Images. Default base image is ghcr.io/jenkinsci/jenkinsfile-runner:master
     required: false    
 runs:
   using: "composite"
