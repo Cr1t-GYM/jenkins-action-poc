@@ -1,0 +1,13 @@
+name: 'jenkins-setup'
+description: 'Install the Jenkins core, Jenkinsfile-runner, plugin-installation-manager-tool and the minimum required set of plugins for pipeline execution'
+inputs:
+  jenkins-version:
+    description: 'The version of jenkins core to download. Default is 2.346.1.'
+    default: 2.346.1
+    required: false
+runs:
+  using: 'composite'
+  steps:
+    - name: Download Jenkins binaries
+      run: ${GITHUB_ACTION_PATH}/setup.sh ${{inputs.jenkins-version}}
+      shell: bash
