@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     name: jenkins-prebuilt-container-test
     container:
-      image: ghcr.io/cr1t-gym/jenkinsfile-runner-image-release-test:master
+      image: ghcr.io/jenkinsci/jenkinsfile-runner:master
     steps:
       - uses: actions/checkout@v2
       # Cache new plugins in /jenkins_new_plugins by hash(plugins.txt)
