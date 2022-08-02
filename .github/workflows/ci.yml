@@ -18,7 +18,7 @@ jobs:
         uses:
           ./jenkins-plugin-installation-action
         with:
-          pluginstxt: plugins.txt
+          pluginstxt: jenkins-plugin-installation-action/plugins.txt
       - name: Run Jenkins pipeline
         id: run_jenkins_pipeline
         uses:
