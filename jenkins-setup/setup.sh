@@ -8,7 +8,7 @@ JFR_VERSION=1.0-beta-30
 
 if [ $# == 1 ]
 then
-    JENKINS_VERSION = $1
+    JENKINS_VERSION=$1
 fi
 
 JENKINS_PM_URL=https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/${JENKINS_PM_VERSION}/jenkins-plugin-manager-${JENKINS_PM_VERSION}.jar
