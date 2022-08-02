@@ -136,7 +136,7 @@ jobs:
           pluginstxt: plugins.txt
           jcasc: jcasc.yml
 ```
-Some users might want to configure the container environment. The recommendation is that you can extend the [ghcr.io/jenkinsci/jenkinsfile-runner:master](https://github.com/jenkinsci/jenkinsfile-runner/pkgs/container/jenkinsfile-runner) vanilla image and then you need to build and push it to your own registry. Finnaly, you can replace the vanilla image with your own custimized image. The invocation of jfr-container-action is the same in this way.
+Some users might want to configure the container environment. The recommendation is that you should extend the [ghcr.io/jenkinsci/jenkinsfile-runner:master](https://github.com/jenkinsci/jenkinsfile-runner/pkgs/container/jenkinsfile-runner) vanilla image and then you need to build and push it to your own registry. Finally, you can replace the vanilla image with your own custimized image. The invocation of jfr-container-action can be done in a similar way.
 ```Yaml
 name: Java CI
 on: [push]
