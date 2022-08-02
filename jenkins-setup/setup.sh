@@ -26,6 +26,7 @@ unzip -q ${JENKINS_ROOT}/jenkinsfile-runner-${JFR_VERSION}.zip -d ${JENKINS_ROOT
 chmod +x ${JENKINS_ROOT}/jenkinsfile-runner/bin/jenkinsfile-runner
 mkdir -p ${GITHUB_WORKSPACE}/jenkins/casc
 unzip -q ${JENKINS_ROOT}/jenkins.war -d ${JENKINS_ROOT}/jenkins
+mkdir ${JENKINS_ROOT}/jenkins/WEB-INF/groovy.init.d && cp ${GITHUB_ACTION_PATH}/init.groovy ${JENKINS_ROOT}/jenkins/WEB-INF/groovy.init.d
 # download plugin manager
 echo "Downloading Jenkins plugin manager..."
 curl -L $JENKINS_PM_URL -o ${JENKINS_ROOT}/jenkins-plugin-manager.jar

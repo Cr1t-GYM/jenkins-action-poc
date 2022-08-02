@@ -9,4 +9,6 @@ then
 fi
 
 echo "Executing the pipeline..."
-${JENKINS_ROOT}/jenkinsfile-runner/bin/jenkinsfile-runner "$1" -w ${JENKINS_ROOT}/jenkins -p ${JENKINS_ROOT}/plugins -f $2
+mkdir jenkinsHome
+${JENKINS_ROOT}/jenkinsfile-runner/bin/jenkinsfile-runner "$1" -w ${JENKINS_ROOT}/jenkins -p ${JENKINS_ROOT}/plugins -f "$2" --runHome jenkinsHome --withInitHooks ${JENKINS_ROOT}/jenkins/WEB-INF/groovy.init.d
+echo "The pipeline log is available at jenkinsHome/jobs/job/builds!"
