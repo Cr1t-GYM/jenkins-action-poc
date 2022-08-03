@@ -15,4 +15,4 @@ fi
 
 echo "Running Jenkins pipeline."
 /app/bin/jenkinsfile-runner-launcher "$1" -w /app/jenkins -p /usr/share/jenkins/ref/plugins -f "$2" --runHome /jenkinsHome --withInitHooks /app/jenkins/WEB-INF/groovy.init.d
-echo "The pipeline log is available at /jenkinsHome/jobs/job/builds!"
+echo "The pipeline log is available at /jenkinsHome/jobs/job/builds"
