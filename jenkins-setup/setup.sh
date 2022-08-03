@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -euxo pipefail
 
 JENKINS_ROOT=./jenkins
 JENKINS_VERSION=2.319.3
