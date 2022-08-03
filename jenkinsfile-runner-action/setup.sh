@@ -5,7 +5,7 @@ JENKINS_ROOT=./jenkins
 
 if [ $# == 3 ]
 then
-    cp $3 ${GITHUB_WORKSPACE}/jenkins/casc
+    cp "$3" "${GITHUB_WORKSPACE}/jenkins/casc"
 fi
 
 echo "Executing the pipeline..."

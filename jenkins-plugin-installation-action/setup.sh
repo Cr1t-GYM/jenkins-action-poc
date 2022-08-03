@@ -15,5 +15,5 @@ then
     exit 1
 fi
 
-java -jar ${JENKINS_ROOT}/jenkins-plugin-manager.jar --war ${JENKINS_ROOT}/jenkins.war --plugin-file ${PLUGIN_LIST} --plugin-download-directory=${JENKINS_ROOT}/plugins
+java -jar ${JENKINS_ROOT}/jenkins-plugin-manager.jar --war ${JENKINS_ROOT}/jenkins.war --plugin-file "${PLUGIN_LIST}" --plugin-download-directory=${JENKINS_ROOT}/plugins
 echo "Jenkins plugins has been set up."

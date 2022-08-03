@@ -7,7 +7,7 @@ java -jar /app/bin/jenkins-plugin-manager.jar --war /app/jenkins/jenkins.war --p
 if [[ $# == 4 && $4 != "" ]]
 then
     echo "Set up JCasC."
-    cp "$4" ${CASC_JENKINS_CONFIG}
+    cp "$4" "${CASC_JENKINS_CONFIG}"
 fi
 
 echo "Running Jenkins pipeline."
