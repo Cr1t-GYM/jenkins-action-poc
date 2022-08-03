@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
 PLUGIN_LIST=plugins.txt
 JENKINS_ROOT=./jenkins
