@@ -19,15 +19,15 @@ inputs:
     required: false
   jenkins-pm-url:
     description: 'The download url of plugin installation manager.'
-    default: https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/${{inputs.jenkins-pm-version}}/jenkins-plugin-manager-${{inputs.jenkins-pm-version}}.jar
+    default: https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/${{jenkins-pm-version}}/jenkins-plugin-manager-${{jenkins-pm-version}}.jar
     required: false
   jenkins-core-url:
     description: 'The download url of Jenkins war package.'
-    default: https://updates.jenkins.io/download/war/${{inputs.jenkins-version}}/jenkins.war
+    default: https://updates.jenkins.io/download/war/${{jenkins-version}}/jenkins.war
     required: false
   jenkins-jfr-url:
     description: 'The download url of Jenkinsfile-runner.'
-    default: https://github.com/jenkinsci/jenkinsfile-runner/releases/download/${{inputs.jfr-version}}/jenkinsfile-runner-${{inputs.jfr-version}}.zip
+    default: https://github.com/jenkinsci/jenkinsfile-runner/releases/download/${{jfr-version}}/jenkinsfile-runner-${{jfr-version}}.zip
     required: false
 runs:
   using: 'composite'
