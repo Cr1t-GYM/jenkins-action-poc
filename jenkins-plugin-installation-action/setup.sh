@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -exo pipefail
+set -euo pipefail
 
 PLUGIN_LIST=plugins.txt
 
