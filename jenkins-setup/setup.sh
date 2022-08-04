@@ -2,8 +2,6 @@
 set -exuo pipefail
 
 echo "{JENKINS_ROOT}={$JENKINS_ROOT}" >> "$GITHUB_ENV"
-echo "$JENKINS_VERSION"
-echo "$INPUTS_JENKINS_CORE_URL"
 # JENKINS_ROOT=./jenkins
 # JENKINS_VERSION=2.319.3
 # JENKINS_PM_VERSION=2.5.0
@@ -13,6 +11,19 @@ echo "$INPUTS_JENKINS_CORE_URL"
 # then
 #     JENKINS_VERSION=$1
 # fi
+if [[ "$JENKINS_PM_URL" =~ "^https://github.com/jenkinsci/plugin-installation-manager-tool.#" ]]
+then
+    JENKINS_PM_URL=https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/"${JENKINS_PM_VERSION}"/jenkins-plugin-manager-"${JENKINS_PM_VERSION}".jar
+fi
+if [[ "$JENKINS_CORE_URL" =~ "^https://updates.jenkins.io/download/war.#" ]]
+then
+    JENKINS_CORE_URL=https://updates.jenkins.io/download/war/"${JENKINS_VERSION}"/jenkins.war
+fi
+if [[ "$JENKINS_JFR_URL" =~ "^https://github.com/jenkinsci/jenkinsfile-runner.*" ]]
+then
+    JENKINS_JFR_URL=https://github.com/jenkinsci/jenkinsfile-runner/releases/download/"${JFR_VERSION}"/jenkinsfile-runner-"${JFR_VERSION}".zip
+fi
+
 
 # JENKINS_PM_URL="${JENKINS_PM_URL:-https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/${JENKINS_PM_VERSION}/jenkins-plugin-manager-${JENKINS_PM_VERSION}.jar}"
 # JENKINS_CORE_URL="${JENKINS_CORE_URL:-https://updates.jenkins.io/download/war/${JENKINS_VERSION}/jenkins.war}"
