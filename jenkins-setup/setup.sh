@@ -11,15 +11,15 @@ echo "{JENKINS_ROOT}={$JENKINS_ROOT}" >> "$GITHUB_ENV"
 # then
 #     JENKINS_VERSION=$1
 # fi
-if [[ "$JENKINS_PM_URL" =~ "^https://github.com/jenkinsci/plugin-installation-manager-tool.#" ]]
+if [[ "$JENKINS_PM_URL" =~ ^https://github.com/jenkinsci/plugin-installation-manager-tool.* ]]
 then
     JENKINS_PM_URL=https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/"${JENKINS_PM_VERSION}"/jenkins-plugin-manager-"${JENKINS_PM_VERSION}".jar
 fi
-if [[ "$JENKINS_CORE_URL" =~ "^https://updates.jenkins.io/download/war.#" ]]
+if [[ "$JENKINS_CORE_URL" =~ ^https://updates.jenkins.io/download/war.* ]]
 then
     JENKINS_CORE_URL=https://updates.jenkins.io/download/war/"${JENKINS_VERSION}"/jenkins.war
 fi
-if [[ "$JENKINS_JFR_URL" =~ "^https://github.com/jenkinsci/jenkinsfile-runner.*" ]]
+if [[ "$JENKINS_JFR_URL" =~ ^https://github.com/jenkinsci/jenkinsfile-runner.* ]]
 then
     JENKINS_JFR_URL=https://github.com/jenkinsci/jenkinsfile-runner/releases/download/"${JFR_VERSION}"/jenkinsfile-runner-"${JFR_VERSION}".zip
 fi
