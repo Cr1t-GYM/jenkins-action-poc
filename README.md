@@ -28,7 +28,6 @@ This is the POC of Jenkinsfile Runner Action for GitHub Actions in GSoC 2022.
     - [Cache new installed plugins](#cache-new-installed-plugins)
     - [Pipeline log uploading service](#pipeline-log-uploading-service)
     - [Use your own base image as runtime](#use-your-own-base-image-as-runtime)
-    - [Override the download center](#override-the-download-center)
   - [A small demo about how to use these actions](#a-small-demo-about-how-to-use-these-actions)
 
 ## Introduction
@@ -54,6 +53,12 @@ These inputs are provided by our container actions.
 ### Runtime Actions Inputs
 #### jenkins-setup
 * `jenkins-version` - The version of jenkins core to download. Default is 2.346.1.
+* `jenkins-root` - The root directory of jenkins binaries storage. Default is `./jenkins`.
+* `jenkins-pm-version` - The version of plugin installation manager to use. Default is 2.5.0.
+* `jfr-version` - The version of Jenkinsfile-runner to use. Default is 1.0-beta-30.
+* `jenkins-pm-url` - The download url of plugin installation manager. Default is [plugin-installation-manager-tool GitHub release](https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/2.5.0/jenkins-plugin-manager-2.5.0.jar).
+* `jenkins-core-url` - The download url of Jenkins war package. Default is [Jenkins update center](https://updates.jenkins.io/download/war/2.346.1/jenkins.war).
+* `jenkins-jfr-url` - The download url of Jenkinsfile-runner. Default is [Jenkinsfile-runner GitHub release](https://github.com/jenkinsci/jenkinsfile-runner/releases/download/1.0-beta-30/jenkinsfile-runner-1.0-beta-30.zip).
 #### jenkins-plugin-installation-action
 * `pluginstxt` - The relative path to plugins list file.
 #### jenkinsfile-runner-action
@@ -370,16 +375,6 @@ This feature is only available in `jfr-static-image-action`. You can specify the
           pluginstxt: plugins_container.txt
           jcasc: jcasc.yml
           baseImage: 'node:18.3.0'  
-```
-### Override the download center
-This feature is only available in `jenkins-setup`. You can override the default download urls by specifying `JENKINS_PM_URL`, `JENKINS_CORE_URL` or `JENKINS_JFR_URL` as the environment variables when calling `jenkins-setup`. `JENKINS_PM_URL` is used to set up the download center for plugin-installation-manager-tool. `JENKINS_CORE_URL` is used to set up the download center for Jenkins war package. `JENKINS_JFR_URL` is used to set up the download center for Jenkinsfile-runner.
-```Yaml
-      - name: Set up Jenkins
-        uese: Cr1t-GYM/jenkins-action-poc/jenkins-setup@master
-        env:
-          JENKINS_PM_URL: https://github.com/jenkinsci/jenkinsfile-runner/releases/download/2.5.0/jenkinsfile-runner-2.5.0.zip
-          JENKINS_CORE_URL: http://updates.jenkins.io/download/war/2.346.1/jenkins.war
-          JENKINS_JFR_URL: https://github.com/jenkinsci/jenkinsfile-runner/releases/download/1.0-beta-30/jenkinsfile-runner-1.0-beta-30.zip}
 ```
 
 ## A small demo about how to use these actions
