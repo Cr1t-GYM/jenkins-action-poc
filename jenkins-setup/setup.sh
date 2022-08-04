@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -exuo pipefail
 
-echo "{JENKINS_ROOT}={$JENKINS_ROOT}" >> "$GITHUB_ENV"
+echo "JENKINS_ROOT=$JENKINS_ROOT" >> "$GITHUB_ENV"
 # JENKINS_ROOT=./jenkins
 # JENKINS_VERSION=2.319.3
 # JENKINS_PM_VERSION=2.5.0
