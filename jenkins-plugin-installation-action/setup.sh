@@ -2,7 +2,6 @@
 set -euo pipefail
 
 PLUGIN_LIST=plugins.txt
-JENKINS_ROOT=./jenkins
 
 if [ $# == 1 ]
 then

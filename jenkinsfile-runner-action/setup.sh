@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-JENKINS_ROOT=./jenkins
 
 if [ $# == 3 ]
 then

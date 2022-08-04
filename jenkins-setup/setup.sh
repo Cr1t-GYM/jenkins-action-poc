@@ -1,19 +1,20 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -exuo pipefail
 
-JENKINS_ROOT=./jenkins
-JENKINS_VERSION=2.319.3
-JENKINS_PM_VERSION=2.5.0
-JFR_VERSION=1.0-beta-30
+echo "{JENKINS_ROOT}={$JENKINS_ROOT}" >> $GITHUB_ENV
+# JENKINS_ROOT=./jenkins
+# JENKINS_VERSION=2.319.3
+# JENKINS_PM_VERSION=2.5.0
+# JFR_VERSION=1.0-beta-30
 
-if [ $# == 1 ]
-then
-    JENKINS_VERSION=$1
-fi
+# if [ $# == 1 ]
+# then
+#     JENKINS_VERSION=$1
+# fi
 
-JENKINS_PM_URL="${JENKINS_PM_URL:-https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/${JENKINS_PM_VERSION}/jenkins-plugin-manager-${JENKINS_PM_VERSION}.jar}"
-JENKINS_CORE_URL="${JENKINS_CORE_URL:-https://updates.jenkins.io/download/war/${JENKINS_VERSION}/jenkins.war}"
-JENKINS_JFR_URL="${JENKINS_JFR_URL:-https://github.com/jenkinsci/jenkinsfile-runner/releases/download/${JFR_VERSION}/jenkinsfile-runner-${JFR_VERSION}.zip}"
+# JENKINS_PM_URL="${JENKINS_PM_URL:-https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/${JENKINS_PM_VERSION}/jenkins-plugin-manager-${JENKINS_PM_VERSION}.jar}"
+# JENKINS_CORE_URL="${JENKINS_CORE_URL:-https://updates.jenkins.io/download/war/${JENKINS_VERSION}/jenkins.war}"
+# JENKINS_JFR_URL="${JENKINS_JFR_URL:-https://github.com/jenkinsci/jenkinsfile-runner/releases/download/${JFR_VERSION}/jenkinsfile-runner-${JFR_VERSION}.zip}"
 
 # download Jenkins core
 mkdir -p ${JENKINS_ROOT}
