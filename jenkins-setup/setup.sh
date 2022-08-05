@@ -2,14 +2,17 @@
 set -euo pipefail
 
 echo "JENKINS_ROOT=$JENKINS_ROOT" >> "$GITHUB_ENV"
+# If you change the default value of JENKINS_PM_URL, JENKINS_PM_VERSION will be invalid.
 if [[ "$JENKINS_PM_URL" =~ ^https://github.com/jenkinsci/plugin-installation-manager-tool.* ]]
 then
     JENKINS_PM_URL=https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/"${JENKINS_PM_VERSION}"/jenkins-plugin-manager-"${JENKINS_PM_VERSION}".jar
 fi
+# If you change the default value of JENKINS_CORE_URL, JENKINS_VERSION will be invalid.
 if [[ "$JENKINS_CORE_URL" =~ ^https://updates.jenkins.io/download/war.* ]]
 then
     JENKINS_CORE_URL=https://updates.jenkins.io/download/war/"${JENKINS_VERSION}"/jenkins.war
 fi
+# If you change the default value of JENKINS_JFR_URL, JFR_VERSION will be invalid.
 if [[ "$JENKINS_JFR_URL" =~ ^https://github.com/jenkinsci/jenkinsfile-runner.* ]]
 then
     JENKINS_JFR_URL=https://github.com/jenkinsci/jenkinsfile-runner/releases/download/"${JFR_VERSION}"/jenkinsfile-runner-"${JFR_VERSION}".zip
