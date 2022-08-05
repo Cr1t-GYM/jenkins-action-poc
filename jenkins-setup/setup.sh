@@ -21,10 +21,10 @@ fi
 # download Jenkins core
 mkdir -p "${JENKINS_ROOT}"
 echo "Downloading Jenkins $JENKINS_VERSION core..."
-curl --silent -L "${JENKINS_CORE_URL}" -o "${JENKINS_ROOT}"/jenkins.war
+curl --silent --location "${JENKINS_CORE_URL}" --output "${JENKINS_ROOT}"/jenkins.war
 # download Jenkinsfile-runner
 echo "Downloading Jenkinsfile runner..."
-curl --silent -L "${JENKINS_JFR_URL}" -o "${JENKINS_ROOT}"/jenkinsfile-runner-"${JFR_VERSION}".zip
+curl --silent --location "${JENKINS_JFR_URL}" --output "${JENKINS_ROOT}"/jenkinsfile-runner-"${JFR_VERSION}".zip
 unzip -q "${JENKINS_ROOT}"/jenkinsfile-runner-"${JFR_VERSION}".zip -d "${JENKINS_ROOT}"/jenkinsfile-runner
 chmod +x "${JENKINS_ROOT}"/jenkinsfile-runner/bin/jenkinsfile-runner
 mkdir -p "${GITHUB_WORKSPACE}/jenkins/casc"
@@ -33,7 +33,7 @@ mkdir -p "${JENKINS_ROOT}"/jenkins/WEB-INF/groovy.init.d
 cp "${GITHUB_ACTION_PATH}/init.groovy" "${JENKINS_ROOT}"/jenkins/WEB-INF/groovy.init.d/
 # download plugin manager
 echo "Downloading Jenkins plugin manager..."
-curl --silent -L "$JENKINS_PM_URL" -o "${JENKINS_ROOT}"/jenkins-plugin-manager.jar
+curl --silent --location "$JENKINS_PM_URL" --output "${JENKINS_ROOT}"/jenkins-plugin-manager.jar
 echo "Downloading latest minimum required plugins for pipeline..."
 java -jar "${JENKINS_ROOT}"/jenkins-plugin-manager.jar --war "${JENKINS_ROOT}"/jenkins.war --plugin-file "${GITHUB_ACTION_PATH}/plugins.txt" --plugin-download-directory="${JENKINS_ROOT}"/plugins
 
