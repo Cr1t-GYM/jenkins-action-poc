@@ -1,0 +1,49 @@
+name: 'jenkins-setup'
+description: 'Install the Jenkins core, Jenkinsfile-runner, plugin-installation-manager-tool and the minimum required set of plugins for pipeline execution'
+inputs:
+  jenkins-version:
+    description: 'The version of jenkins core to download. Default is 2.346.1.'
+    default: 2.346.1
+    required: false
+  jenkins-root:
+    description: 'The Jenkins root directory.'
+    default: ./jenkins
+    required: false
+  jenkins-pm-version:
+    description: 'The version of plugin installation manager to use.'
+    default: 2.5.0
+    required: false
+  jfr-version:
+    description: 'The version of Jenkinsfile-runner to use.'
+    default: 1.0-beta-30
+    required: false
+  jenkins-pm-url:
+    description: 'The download url of plugin installation manager.'
+    default: https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/2.5.0/jenkins-plugin-manager-2.5.0.jar
+    required: false
+  jenkins-core-url:
+    description: 'The download url of Jenkins war package.'
+    default: https://updates.jenkins.io/download/war/2.346.1/jenkins.war
+    required: false
+  jenkins-jfr-url:
+    description: 'The download url of Jenkinsfile-runner.'
+    default: https://github.com/jenkinsci/jenkinsfile-runner/releases/download/1.0-beta-30/jenkinsfile-runner-1.0-beta-30.zip
+    required: false
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-java@v3
+      with:
+        distribution: 'adopt'
+        java-version: '11'  
+    - name: Download Jenkins binaries
+      run: ${GITHUB_ACTION_PATH}/setup.sh
+      env:
+        JENKINS_VERSION: ${{inputs.jenkins-version}}
+        JENKINS_ROOT: ${{inputs.jenkins-root}}
+        JENKINS_PM_VERSION: ${{inputs.jenkins-pm-version}}
+        JFR_VERSION: ${{inputs.jfr-version}}
+        JENKINS_PM_URL: ${{inputs.jenkins-pm-url}}
+        JENKINS_CORE_URL: ${{inputs.jenkins-core-url}}
+        JENKINS_JFR_URL: ${{inputs.jenkins-jfr-url}}
+      shell: bash

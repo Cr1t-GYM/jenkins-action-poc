@@ -7,16 +7,23 @@ This is the POC of Jenkinsfile Runner Action for GitHub Actions in GSoC 2022.
   - [Introduction](#introduction)
   - [Pre-requisites](#pre-requisites)
   - [Inputs](#inputs)
-    - [Shared Inputs](#shared-inputs)
-    - [jfr-container-action Unique Inputs](#jfr-container-action-unique-inputs)
-    - [jfr-static-image-action Unique Inputs](#jfr-static-image-action-unique-inputs)
+    - [Container Actions Inputs](#container-actions-inputs)
+      - [Shared Inputs of jfr-container-action and jfr-static-image-action](#shared-inputs-of-jfr-container-action-and-jfr-static-image-action)
+      - [jfr-container-action Unique Inputs](#jfr-container-action-unique-inputs)
+      - [jfr-static-image-action Unique Inputs](#jfr-static-image-action-unique-inputs)
+    - [Runtime Actions Inputs](#runtime-actions-inputs)
+      - [jenkins-setup](#jenkins-setup)
+      - [jenkins-plugin-installation-action](#jenkins-plugin-installation-action)
+      - [jenkinsfile-runner-action](#jenkinsfile-runner-action)
   - [How you can access these actions in your project?](#how-you-can-access-these-actions-in-your-project)
   - [Actions Comparisons](#actions-comparisons)
   - [Step by step usage](#step-by-step-usage)
+    - [Container actions usage](#container-actions-usage)
+    - [Runtime actions usage](#runtime-actions-usage)
   - [Example workflows](#example-workflows)
     - [Container job action](#container-job-action)
     - [Docker container action](#docker-container-action)
-    - [Runtime action (Deprecated)](#runtime-action-deprecated)
+    - [Runtime action](#runtime-action)
   - [Advanced usage](#advanced-usage)
     - [Cache new installed plugins](#cache-new-installed-plugins)
     - [Pipeline log uploading service](#pipeline-log-uploading-service)
@@ -32,40 +39,70 @@ You can configure the pipeline environment by using other GitHub Actions or prov
 The users need to create the workflow definition under the `.github/workflows` directory. Refer to the [example workflows](#example-workflows) for more details about these actions.
 
 ## Inputs
-### Shared Inputs
-These inputs are provided by all of our actions.
-* `command` - The command to run the [jenkinsfile-runner](https://github.com/jenkinsci/jenkinsfile-runner). The supported commands are `run`, `lint`, `cli`, `generate-completion`, `version` and `help`. The default command is run.
-* `jenkinsfile` - The relative path to Jenkinsfile. The default file name is Jenkinsfile. You can check [the official manual about Jenkinsfile](https://www.jenkins.io/doc/book/pipeline/syntax/).
-* `pluginstxt` - The relative path to plugins list file. The default file name is plugins.txt. You can check [the valid plugin input format](https://github.com/jenkinsci/plugin-installation-manager-tool#plugin-input-format). You can also refer to the [plugins.txt](plugins.txt) in this repository.
-* `jcasc` - The relative path to Jenkins Configuration as Code YAML file. You can refer to the [demos](https://github.com/jenkinsci/configuration-as-code-plugin/tree/master/demos) provided by `configuration-as-code-plugin` and learn how to configure the Jenkins instance without using UI page.
-### jfr-container-action Unique Inputs
-* `isPluginCacheHit` - You can choose whether or not to cache new installed plugins outside. If users want to use `actions/cache` in the workflow, they can give the cache hit status as input in `isPluginCacheHit`. Default input is false.
-### jfr-static-image-action Unique Inputs
-* `baseImage` - You can choose your base runtime here. By default, it will use `openjdk:11-jdk` as the base image.
+### Container Actions Inputs
+#### Shared Inputs of jfr-container-action and jfr-static-image-action
+These inputs are provided by our container actions.
+| Name | Type | Default Value | Description |
+| ----------- | ----------- | ----------- | ----------- |
+| `command` | String | run | The command to run the [jenkinsfile-runner](https://github.com/jenkinsci/jenkinsfile-runner). The supported commands are `run` and `lint`. |
+| `jenkinsfile` | String | Jenkinsfile | The relative path to Jenkinsfile. You can check [the official manual about Jenkinsfile](https://www.jenkins.io/doc/book/pipeline/syntax/). |
+| `pluginstxt` | String | plugins.txt | The relative path to plugins list file. You can check [the valid plugin input format](https://github.com/jenkinsci/plugin-installation-manager-tool#plugin-input-format). You can also refer to the [plugins.txt](plugins.txt) in this repository. |
+| `jcasc` | String | N/A | The relative path to Jenkins Configuration as Code YAML file. You can refer to the [demos](https://github.com/jenkinsci/configuration-as-code-plugin/tree/master/demos) provided by `configuration-as-code-plugin` and learn how to configure the Jenkins instance without using UI page. |
+#### jfr-container-action Unique Inputs
+| Name | Type | Default Value | Description |
+| ----------- | ----------- | ----------- | ----------- |
+| `isPluginCacheHit` | boolean | false | You can choose whether or not to cache new installed plugins outside. If users want to use `actions/cache` in the workflow, they can give the cache hit status as input in `isPluginCacheHit`. |
+#### jfr-static-image-action Unique Inputs
+| Name | Type | Default Value | Description |
+| ----------- | ----------- | ----------- | ----------- |
+| `baseImage` | String | N/A | You can choose your base runtime here. By default, it will pull the Jenkinsfile-runner jdk11 prebuilt container as runtime. |
+### Runtime Actions Inputs
+#### jenkins-setup
+| Name | Type | Default Value | Description |
+| ----------- | ----------- | ----------- | ----------- |
+| `jenkins-version` | String | 2.346.1 | The version of jenkins core to download. If you change the default value of `jenkins-core-url`, this option will be invalid. |
+| `jenkins-root` | String | `./jenkins` | The root directory of jenkins binaries storage. |
+| `jenkins-pm-version` | String | 2.5.0 | The version of plugin installation manager to use. If you change the default value of `jenkins-pm-url`, this option will be invalid. |
+| `jfr-version` | String | 1.0-beta-30 | The version of Jenkinsfile-runner to use. If you change the default value of `jenkins-jfr-url`, this option will be invalid. |
+| `jenkins-pm-url` | String | [plugin-installation-manager-tool GitHub release](https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/2.5.0/jenkins-plugin-manager-2.5.0.jar) | The download url of plugin installation manager. |
+| `jenkins-core-url` | String | [Jenkins update center](https://updates.jenkins.io/download/war/2.346.1/jenkins.war) | The download url of Jenkins war package. |
+| `jenkins-jfr-url` | String | [Jenkinsfile-runner GitHub release](https://github.com/jenkinsci/jenkinsfile-runner/releases/download/1.0-beta-30/jenkinsfile-runner-1.0-beta-30.zip) | The download url of Jenkinsfile-runner. |
+#### jenkins-plugin-installation-action
+| Name | Type | Default Value | Description |
+| ----------- | ----------- | ----------- | ----------- |
+| `pluginstxt` | String | plugins.txt | The relative path to plugins list file. |
+#### jenkinsfile-runner-action
+| Name | Type | Default Value | Description |
+| ----------- | ----------- | ----------- | ----------- |
+| `command` | String | run | The command to run the jenkinsfile-runner. The supported commands are `run` and `lint`. |
+| `jenkinsfile` | String | Jenkinsfile | The relative path to Jenkinsfile. |
+| `jcasc` | String | N/A | The relative path to Jenkins Configuration as Code YAML file. |
 
 ## How you can access these actions in your project?
 Reference these actions in your workflow definition.
 1. Cr1t-GYM/jenkins-action-poc/jenkins-plugin-installation-action@master
 2. Cr1t-GYM/jenkins-action-poc/jenkinsfile-runner-action@master
-3. Cr1t-GYM/jenkins-action-poc/jfr-container-action@master
-4. Cr1t-GYM/jenkins-action-poc/jfr-static-image-action@master
+3. Cr1t-GYM/jenkins-action-poc/jenkins-setup@master
+4. Cr1t-GYM/jenkins-action-poc/jfr-container-action@master
+5. Cr1t-GYM/jenkins-action-poc/jfr-static-image-action@master
 
 ## Actions Comparisons
-We only compare `jfr-container-action` and `jfr-static-image-action` here because the others are deprecated.
+We only compare `jfr-container-action`, `jfr-static-image-action` and `jenkinsfile-runner-action` here. `jenkins-setup` and `jenkins-plugin-installation-action` are only used to set up the environment.
 
-| Comparables | jfr-container-action | jfr-static-image-action |
-| ----------- | ----------- | ----------- |
-| Do they run in the Jenkins container or run in the host machine? | It runs in the Jenkins container | It runs in the Jenkins container |
-| When will the Jenkins container start in users workflow? | It will start before all the actions start | It will start when jfr-static-image-action starts |
-| When will the Jenkins container end in users workflow? | It will end after all the actions end | It will end immediately after jfr-static-image-action ends |
-| Can it be used with other GitHub actions? | Yes | No, except `actions/checkout` to set up workspace |
-| Prerequisites | Needs to refer `ghcr.io/jenkinsci/jenkinsfile-runner:master` or its extended images | No |
-| Do they support installing new plugins? | Yes | Yes |
-| Do they support using configuraion-as-code-plugin? | Yes | Yes |
-| Valid Environment Variables in the action | No Constraints | Must be started with JENKINS_ |
-| What kind of runners do it support? | Linux | Linux |
+| Comparables | jfr-container-action | jfr-static-image-action | jenkinsfile-runner-action |
+| ----------- | ----------- | ----------- | ----------- |
+| Do they run in the Jenkins container or run in the host machine? | It runs in the Jenkins container | It runs in the Jenkins container | It runs in the host machine directly |
+| When will the Jenkins container start in users workflow? | It will start before all the actions start | It will start when jfr-static-image-action starts | N/A |
+| When will the Jenkins container end in users workflow? | It will end after all the actions end | It will end immediately after jfr-static-image-action ends | N/A |
+| Can it be used with other GitHub actions? | Yes | No, except `actions/checkout` to set up workspace | Yes |
+| Prerequisites | Needs to refer `ghcr.io/jenkinsci/jenkinsfile-runner:master` or its extended images | No | Needs to set up the environment by `jenkins-setup`. If you want to download extra plugins, you need to run `jenkins-plugin-installation-action` |
+| Do they support installing new plugins? | Yes | Yes | New plugins needs to be installed by `jenkins-plugin-installation-action` |
+| Do they support using configuraion-as-code-plugin? | Yes | Yes | Yes |
+| Valid Environment Variables in the action | No Constraints | Must be started with JENKINS_ | No Constraints |
+| What kind of runners do it support? | Linux | Linux | Linux, macOS, Windows |
 
 ## Step by step usage
+### Container actions usage
 1. Prepare a Jenkinsfile in your repository. You can check [the basic syntax of Jenkins pipeline definition](https://www.jenkins.io/doc/book/pipeline/syntax/).
 2. Prepare a workflow definition under the `.github/workflows` directory. You can check [the official manual](https://docs.github.com/en/actions) for more details.
 3. In your GitHub Action workflow definition, you need to follow these steps when calling other actions in sequence:
@@ -108,6 +145,62 @@ We only compare `jfr-container-action` and `jfr-static-image-action` here becaus
           pluginstxt: plugins.txt
           jcasc: jcasc.yml      
       ```
+### Runtime actions usage
+1. Prepare a Jenkinsfile in your repository.
+2. Prepare a workflow definition under the `.github/workflows` directory.
+3. In your GitHub Action workflow definition, you need to follow these steps when calling other actions in sequence:
+   1. Use the runners you prefer. You can choose Linux, macOS or Windows.
+   ```Yaml
+   jobs:
+      job-name:
+        runs-on: ubuntu-latest   
+   ```   
+   2. Call the `actions/checkout@v2` to pull your codes into the runner.
+   ```Yaml
+   jobs:
+      job-name:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v2           
+   ```      
+   3. Set up the Jenkins environment by using `Cr1t-GYM/jenkins-action-poc/jenkins-setup@master`.
+   ```Yaml
+   jobs:
+      job-name:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v2
+          - uese: Cr1t-GYM/jenkins-action-poc/jenkins-setup@master           
+   ```    
+   4. Install extra plugins by using `Cr1t-GYM/jenkins-action-poc/jenkins-plugin-installation-action@master`. This step is optional.
+   ```Yaml
+   jobs:
+      job-name:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v2
+          - uese: Cr1t-GYM/jenkins-action-poc/jenkins-setup@master
+          - uses: Cr1t-GYM/jenkins-action-poc/jenkins-plugin-installation-action@master
+            with:
+              pluginstxt: jenkins-setup/plugins.txt                     
+   ```   
+   5. Run the Jenkins pipeline by using `Cr1t-GYM/jenkins-action-poc/jenkinsfile-runner-action@master`.
+   ```Yaml
+   jobs:
+      job-name:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v2
+          - uese: Cr1t-GYM/jenkins-action-poc/jenkins-setup@master
+          - uses: Cr1t-GYM/jenkins-action-poc/jenkins-plugin-installation-action@master
+            with:
+              pluginstxt: jenkins-setup/plugins.txt
+          - uses: Cr1t-GYM/jenkins-action-poc/jenkinsfile-runner-action@master
+            with:
+              command: run
+              jenkinsfile: Jenkinsfile
+              jcasc: jcasc.yml                                   
+   ```    
 
 ## Example workflows
 There are three common cases about how to play with these actions. Although the user interfaces are similar to each other, there are still some subtle differences. The runtime actions are deprecated now. The users can use the [jfr-container-action](#container-job-action) and [jfr-static-image-action](#docker-container-action).
@@ -182,32 +275,36 @@ jobs:
           pluginstxt: plugins.txt
           jcasc: jcasc.yml
 ```
-### Runtime action (Deprecated)
-This case is realized by the combination of jenkins-plugin-installation-action and jenkinsfile-runner-action. It will download all the dependencies and run the pipeline at the runtime. Its main disadvantage is the possibility of suffering from a plugins.jenkins.io outage.
+### Runtime action
+This case is realized by the combination of jenkins-setup, jenkins-plugin-installation-action and jenkinsfile-runner-action. It will download all the dependencies and run the pipeline at the host machine directly. Its advantage is that it can support Linux, macOS and Windows runners. Its main disadvantage is the possibility of suffering from a plugins.jenkins.io outage.
 ```Yaml
 name: Java CI
 on: [push]
 jobs:
   jenkins-runtime-pipeline:
-    runs-on: ubuntu-latest
+    # Run all the actions in the on demand VM.
+    needs: syntax-check
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest, windows-latest]    
+    runs-on: ${{ matrix.os }}
+    name: jenkins-runtime-pipeline-test
     steps:
       - uses: actions/checkout@v2
-      # jenkins-plugin-installation-action
+      - name : Setup Jenkins
+        uses: Cr1t-GYM/jenkins-action-poc/jenkins-setup
       - name: Jenkins plugins download
         id: jenkins_plugins_download
-        uses:
-          Cr1t-GYM/jenkins-action-poc/jenkins-plugin-installation-action@master
+        uses: Cr1t-GYM/jenkins-action-poc/jenkins-plugin-installation-action
         with:
-          pluginstxt: plugins_min.txt
-      # jenkinsfile-runner-action
+          pluginstxt: jenkins-setup/plugins.txt
       - name: Run Jenkins pipeline
         id: run_jenkins_pipeline
-        uses:
-          Cr1t-GYM/jenkins-action-poc/jenkinsfile-runner-action@master
+        uses: Cr1t-GYM/jenkins-action-poc/jenkinsfile-runner-action
         with:
           command: run
           jenkinsfile: Jenkinsfile
-          jcasc: jcasc_runtime.yml
+          jcasc: jcasc.yml
 ```
 
 ## Advanced usage

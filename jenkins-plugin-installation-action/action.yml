@@ -8,10 +8,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/setup-java@v3
-      with:
-        distribution: 'adopt'
-        java-version: '8'
     - name: Download plugins
-      run: ${{github.action_path}}/setup.sh ${{inputs.pluginstxt}}
+      run: ${GITHUB_ACTION_PATH}/setup.sh ${{inputs.pluginstxt}}
       shell: bash

@@ -1,18 +1,32 @@
 name: Java CI
 on: [push]
 jobs:
+  syntax-check:
+    runs-on: ubuntu-latest
+    name: syntax-check
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master      
   jenkins-runtime-pipeline:
     # Run all the actions in the on demand VM.
-    runs-on: ubuntu-latest
+    needs: syntax-check
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest, windows-latest]    
+    runs-on: ${{ matrix.os }}
     name: jenkins-runtime-pipeline-test
     steps:
       - uses: actions/checkout@v2
+      - name : Setup Jenkins
+        uses:
+          ./jenkins-setup
       - name: Jenkins plugins download
         id: jenkins_plugins_download
         uses:
           ./jenkins-plugin-installation-action
         with:
-          pluginstxt: plugins.txt
+          pluginstxt: jenkins-setup/plugins.txt
       - name: Run Jenkins pipeline
         id: run_jenkins_pipeline
         uses:
@@ -23,6 +37,7 @@ jobs:
           jcasc: jcasc.yml
   jenkins-container-pipeline:
     # Pull the Jenkinsfile-ruuner prebuilt container firstly and run all the actions in this container.
+    needs: syntax-check
     runs-on: ubuntu-latest
     name: jenkins-prebuilt-container-test
     container:
@@ -54,6 +69,7 @@ jobs:
           name: jenkins-container-pipeline-log
           path: /jenkinsHome/jobs/job/builds
   jenkins-static-image-pipeline:
+    needs: syntax-check
     runs-on: ubuntu-latest
     name: jenkins-static-image-pipeline-test
     steps:
@@ -76,6 +92,7 @@ jobs:
           name: jenkins-static-image-pipeline-log
           path: jenkinsHome/jobs/job/builds
   jenkins-static-image-pipeline-with-base-image:
+    needs: syntax-check
     runs-on: ubuntu-latest
     name: jenkins-static-image-pipeline-with-base-image
     strategy:

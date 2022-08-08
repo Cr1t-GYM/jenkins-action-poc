@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
-JENKINS_ROOT=./jenkins
-JFR_VERSION=1.0-beta-30
 
 if [ $# == 3 ]
 then
-    cp ${GITHUB_WORKSPACE}/$3 ${GITHUB_WORKSPACE}/jenkins/casc
+    cp "$3" "${GITHUB_WORKSPACE}/jenkins/casc"
 fi
 
-echo "Executing the pipeline"
-echo "${JENKINS_ROOT}/jenkinsfile-runner-${JFR_VERSION}/bin/jenkinsfile-runner "$1" -w ${JENKINS_ROOT}/jenkins -p ${JENKINS_ROOT}/plugins -f $2"
-${JENKINS_ROOT}/jenkinsfile-runner-${JFR_VERSION}/bin/jenkinsfile-runner "$1" -w ${JENKINS_ROOT}/jenkins -p ${JENKINS_ROOT}/plugins -f $2
+echo "Executing the pipeline..."
+mkdir jenkinsHome
+"${JENKINS_ROOT}"/jenkinsfile-runner/bin/jenkinsfile-runner "$1" -w "${JENKINS_ROOT}"/jenkins -p "${JENKINS_ROOT}"/plugins -f "$2" --runHome jenkinsHome --withInitHooks "${JENKINS_ROOT}"/jenkins/WEB-INF/groovy.init.d
+echo "The pipeline log is available at jenkinsHome/jobs/job/builds"
