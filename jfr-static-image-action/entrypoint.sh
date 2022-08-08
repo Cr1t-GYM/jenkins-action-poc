@@ -4,7 +4,7 @@ set -euo pipefail
 echo "Download plugins."
 java -jar /app/bin/jenkins-plugin-manager.jar --war /app/jenkins/jenkins.war --plugin-file "$3" --plugin-download-directory=/usr/share/jenkins/ref/plugins
 
-if [[ $# >= 4 && $4 != "" ]]
+if [[ $# -ge 4 && $4 != "" ]]
 then
     echo "Set up JCasC."
     cp "$4" "${CASC_JENKINS_CONFIG}"
