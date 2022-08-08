@@ -20,12 +20,19 @@ inputs:
     description: The plugin cache hit status. If you use actions/cache outside, you can simply give its output as input here.
     required: false
     default: false 
+  initHook:
+    description: Path to the Groovy init hook file
+    required: false     
 runs:
   using: "composite"
   steps:
     - name: Set up Jenkins war package
       run: jar -cvf /app/jenkins/jenkins.war /app/jenkins/* && mkdir -p /jenkins_new_plugins && mkdir -p /jenkinsHome && mkdir /app/jenkins/WEB-INF/groovy.init.d && cp ${GITHUB_ACTION_PATH}/init.groovy /app/jenkins/WEB-INF/groovy.init.d/
       shell: bash
+    - name: Copy Groovy init hook
+      shell: bash
+      if: ${{inputs.initHook != ''}}
+      run: cp ${{inputs.initHook}} /app/jenkins/WEB-INF/groovy.init.d
     - name: Download plugins
       if: ${{inputs.isPluginCacheHit != 'true'}}
       run: ${GITHUB_ACTION_PATH}/download.sh ${{inputs.pluginstxt}}
