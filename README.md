@@ -28,7 +28,7 @@ This is the POC of Jenkinsfile Runner Action for GitHub Actions in GSoC 2022.
     - [Cache new installed plugins](#cache-new-installed-plugins)
     - [Pipeline log uploading service](#pipeline-log-uploading-service)
     - [Use your own base image as runtime](#use-your-own-base-image-as-runtime)
-    - [Configure your instance by Groovy hook script](#configure-your-instance-by-groovy-hook-script)
+    - [Configure your instance by Groovy hook scripts](#configure-your-instance-by-groovy-hook-scripts)
   - [A small demo about how to use these actions](#a-small-demo-about-how-to-use-these-actions)
 
 ## Introduction
@@ -49,7 +49,7 @@ These inputs are provided by our container actions.
 | `jenkinsfile` | String | Jenkinsfile | The relative path to Jenkinsfile. You can check [the official manual about Jenkinsfile](https://www.jenkins.io/doc/book/pipeline/syntax/). |
 | `pluginstxt` | String | plugins.txt | The relative path to plugins list file. You can check [the valid plugin input format](https://github.com/jenkinsci/plugin-installation-manager-tool#plugin-input-format). You can also refer to the [plugins.txt](plugins.txt) in this repository. |
 | `jcasc` | String | N/A | The relative path to Jenkins Configuration as Code YAML file. You can refer to the [demos](https://github.com/jenkinsci/configuration-as-code-plugin/tree/master/demos) provided by `configuration-as-code-plugin` and learn how to configure the Jenkins instance without using UI page. |
-| `initHook` | String | N/A | The relative path to the [Groovy init hook file](https://www.jenkins.io/doc/book/managing/groovy-hook-scripts/). |
+| `initHook` | String | N/A | The relative path to the [Groovy init hook directory](https://www.jenkins.io/doc/book/managing/groovy-hook-scripts/). |
 #### jfr-container-action Unique Inputs
 | Name | Type | Default Value | Description |
 | ----------- | ----------- | ----------- | ----------- |
@@ -79,7 +79,7 @@ These inputs are provided by our container actions.
 | `command` | String | run | The command to run the jenkinsfile-runner. The supported commands are `run` and `lint`. |
 | `jenkinsfile` | String | Jenkinsfile | The relative path to Jenkinsfile. |
 | `jcasc` | String | N/A | The relative path to Jenkins Configuration as Code YAML file. |
-| `initHook` | String | N/A | The relative path to the Groovy init hook file. |
+| `initHook` | String | N/A | The relative path to the Groovy init hook directory. |
 
 ## How you can access these actions in your project?
 Reference these actions in your workflow definition.
@@ -391,8 +391,8 @@ This feature is only available in `jfr-static-image-action`. You can specify the
           jcasc: jcasc.yml
           baseImage: 'node:18.3.0'  
 ```
-### Configure your instance by Groovy hook script
-This feature is available in `jenkinsfile-runner-action`, `jfr-container-action` and `jfr-static-image-action`. Sometimes JCasC cannot provide enough configutations and you might find setting up a Groovy hook script is useful. Your groovy script will be executed right after Jenkins starts up and before your actual pipeline starts up. This script allows full access to all of the classes in the Jenkins core and installed plugins. The following example is based on `jfr-container-action` but it works the same as other actions.
+### Configure your instance by Groovy hook scripts
+This feature is available in `jenkinsfile-runner-action`, `jfr-container-action` and `jfr-static-image-action`. Sometimes JCasC cannot provide enough configutations and you might find setting up a Groovy hook scripts is useful. Your groovy scripts will be executed right after Jenkins starts up and before your actual pipeline starts up. These scripts allows full access to all of the classes in the Jenkins core and installed plugins. The following example is based on `jfr-container-action` but it works the same as other actions. Note you need to provide a directory which contains your groovy scripts not a single file.
 ```Yaml
       - name: Jenkins pipeline in the container
         id: jenkins_pipeline_container
