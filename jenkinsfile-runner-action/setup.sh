@@ -11,7 +11,7 @@ if [[ $# == 4 && $4 != "" ]]
 then
     for f1 in $4
     do
-        for f2 in ${JENKINS_ROOT}/jenkins/WEB-INF/groovy.init.d
+        for f2 in ${JENKINS_ROOT}/jenkins/WEB-INF/groovy.init.d/*
         do
             f1=${basename $f1}
             f2=${basename $f2}
