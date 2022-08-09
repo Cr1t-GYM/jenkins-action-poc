@@ -11,10 +11,10 @@ if [[ $# == 4 && $4 != "" ]]
 then
     for f1 in $4
     do
-        for f2 in ${JENKINS_ROOT}/jenkins/WEB-INF/groovy.init.d/*
+        for f2 in "${JENKINS_ROOT}"/jenkins/WEB-INF/groovy.init.d/*
         do
-            f1=${basename $f1}
-            f2=${basename $f2}
+            f1=$(basename $f1)
+            f2=$(basename $f2)
             if [ f1 == f2 ]
             then
                 echo "There is a name conflict between $f1 and $f2. You need to rename $f1 to other name."
@@ -22,7 +22,7 @@ then
             fi
         done
     done
-    cp "$4"/* ${JENKINS_ROOT}/jenkins/WEB-INF/groovy.init.d
+    cp "$4"/* "${JENKINS_ROOT}"/jenkins/WEB-INF/groovy.init.d
 fi
 
 echo "Executing the pipeline..."
