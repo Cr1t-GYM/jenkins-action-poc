@@ -15,7 +15,7 @@ then
         do
             f1=$(basename "$f1")
             f2=$(basename "$f2")
-            if [ $f1 == $f2 ]
+            if [ "$f1" == "$f2" ]
             then
                 echo "There is a name conflict between $f1 and $f2. You need to rename $f1 to other name."
                 exit 1
