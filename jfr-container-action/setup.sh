@@ -15,7 +15,7 @@ fi
 
 if [[ $# == 4 && $4 != "" ]]
 then
-    for f1 in "$4"
+    for f1 in $4
     do
         for f2 in /app/jenkins/WEB-INF/groovy.init.d
         do

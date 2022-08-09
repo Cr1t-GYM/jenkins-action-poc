@@ -12,7 +12,7 @@ fi
 
 if [[ $# == 5 && $5 != "" ]]
 then
-    for f1 in "$5"
+    for f1 in $5
     do
         for f2 in /app/jenkins/WEB-INF/groovy.init.d
         do
