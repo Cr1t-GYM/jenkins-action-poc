@@ -2,9 +2,27 @@
 set -euo pipefail
 
 
-if [ $# == 3 ]
+if [[ $# -ge 3 && $3 != "" ]]
 then
     cp "$3" "${GITHUB_WORKSPACE}/jenkins/casc"
+fi
+
+if [[ $# == 4 && $4 != "" ]]
+then
+    for f1 in "$4"
+    do
+        for f2 in ${JENKINS_ROOT}/jenkins/WEB-INF/groovy.init.d
+        do
+            f1=${basename $f1}
+            f2=${basename $f2}
+            if [ f1 == f2 ]
+            then
+                echo "There is a name conflict between $f1 and $f2. You need to rename $f1 to other name."
+                exit 1
+            fi
+        done
+    done
+    cp "$4"/* ${JENKINS_ROOT}/jenkins/WEB-INF/groovy.init.d
 fi
 
 echo "Executing the pipeline..."

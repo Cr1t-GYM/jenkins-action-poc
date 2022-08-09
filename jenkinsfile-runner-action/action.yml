@@ -13,17 +13,13 @@ inputs:
     description: Jenkins CasC file
     required: false
   initHook:
-    description: Path to the Groovy init hook file
+    description: Path to the Groovy init hook directory
     required: false
 runs:
   using: "composite"
   steps:
-    - name: Copy Groovy init hook
-      shell: bash
-      if: ${{inputs.initHook != ''}}
-      run: cp ${{inputs.initHook}} ${JENKINS_ROOT}/jenkins/WEB-INF/groovy.init.d
     - name: Run Jenkins pipeline
       env:
         CASC_JENKINS_CONFIG: jenkins/casc
-      run: ${GITHUB_ACTION_PATH}/setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.jcasc}}
+      run: ${GITHUB_ACTION_PATH}/setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.jcasc}} ${{inputs.initHook}}
       shell: bash

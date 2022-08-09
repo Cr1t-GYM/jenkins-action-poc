@@ -20,7 +20,7 @@ inputs:
     description: Jenkins Base Images. Default base image is ghcr.io/jenkinsci/jenkinsfile-runner:master
     required: false    
   initHook:
-    description: Path to the Groovy init hook file
+    description: Path to the Groovy init hook directory
     required: false
 runs:
   using: "composite"

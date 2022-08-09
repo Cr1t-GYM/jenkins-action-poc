@@ -35,7 +35,7 @@ jobs:
           command: run
           jenkinsfile: Jenkinsfile
           jcasc: jcasc.yml
-          initHook: test.groovy
+          initHook: groovy.init.d
   jenkins-container-pipeline:
     # Pull the Jenkinsfile-ruuner prebuilt container firstly and run all the actions in this container.
     needs: syntax-check
@@ -62,7 +62,7 @@ jobs:
           pluginstxt: plugins_container.txt
           jcasc: jcasc.yml
           isPluginCacheHit: ${{steps.cache-jenkins-plugins.outputs.cache-hit}}
-          initHook: test.groovy
+          initHook: groovy.init.d
       # Upload pipeline log in /jenkinsHome/jobs/job/builds
       - name: Upload pipeline Artifacts
         if: ${{ github.ref == 'refs/heads/master' }}
@@ -87,7 +87,7 @@ jobs:
           jenkinsfile: Jenkinsfile
           pluginstxt: plugins_container.txt
           jcasc: jcasc.yml
-          initHook: test.groovy      
+          initHook: groovy.init.d      
       - name: Upload pipeline Artifacts
         if: ${{ github.ref == 'refs/heads/master' }}
         uses: actions/upload-artifact@v3
@@ -117,7 +117,7 @@ jobs:
           pluginstxt: plugins_container.txt
           jcasc: jcasc.yml
           baseImage: ${{ matrix.baseImages }}
-          initHook: test.groovy     
+          initHook: groovy.init.d     
       - name: Upload pipeline Artifacts
         if: ${{ github.ref == 'refs/heads/master' }}
         uses: actions/upload-artifact@v3

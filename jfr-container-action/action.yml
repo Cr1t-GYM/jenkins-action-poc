@@ -21,7 +21,7 @@ inputs:
     required: false
     default: false 
   initHook:
-    description: Path to the Groovy init hook file
+    description: Path to the Groovy init hook directory
     required: false     
 runs:
   using: "composite"
@@ -29,10 +29,6 @@ runs:
     - name: Set up Jenkins war package
       run: jar -cvf /app/jenkins/jenkins.war /app/jenkins/* && mkdir -p /jenkins_new_plugins && mkdir -p /jenkinsHome && mkdir /app/jenkins/WEB-INF/groovy.init.d && cp ${GITHUB_ACTION_PATH}/init.groovy /app/jenkins/WEB-INF/groovy.init.d/
       shell: bash
-    - name: Copy Groovy init hook
-      shell: bash
-      if: ${{inputs.initHook != ''}}
-      run: cp ${{inputs.initHook}} /app/jenkins/WEB-INF/groovy.init.d
     - name: Download plugins
       if: ${{inputs.isPluginCacheHit != 'true'}}
       run: ${GITHUB_ACTION_PATH}/download.sh ${{inputs.pluginstxt}}
@@ -42,5 +38,5 @@ runs:
       run: ls -al /jenkins_new_plugins && cp -r /jenkins_new_plugins/* /usr/share/jenkins/ref/plugins
       shell: bash
     - name: Run Jenkins pipeline in the predefined container
-      run: ${GITHUB_ACTION_PATH}/setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.jcasc}}
+      run: ${GITHUB_ACTION_PATH}/setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.jcasc}} ${{inputs.initHook}}
       shell: bash
