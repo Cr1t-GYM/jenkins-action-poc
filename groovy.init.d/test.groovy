@@ -1,1 +1,1 @@
-println 'Initial hook option works fine!'
+println 'Initial hook option works fine'
