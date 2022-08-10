@@ -392,7 +392,7 @@ This feature is only available in `jfr-static-image-action`. You can specify the
           baseImage: 'node:18.3.0'  
 ```
 ### Configure your instance by Groovy hook scripts
-This feature is available in `jenkinsfile-runner-action`, `jfr-container-action` and `jfr-static-image-action`. Sometimes JCasC cannot provide enough configutations and you might find setting up a Groovy hook scripts is useful. Your groovy scripts will be executed right after Jenkins starts up and before your actual pipeline starts up. These scripts allows full access to all of the classes in the Jenkins core and installed plugins. The following example is based on `jfr-container-action` but it works the same as other actions. Note you need to provide a directory which contains your groovy scripts not a single file.
+This feature is available in `jenkinsfile-runner-action`, `jfr-container-action` and `jfr-static-image-action`. Sometimes JCasC cannot provide adequate configutation settings and you might find that setting up a Groovy hook scripts is useful in that case. Your groovy scripts will be executed right after Jenkins and before your actual pipeline start up. These scripts allows full access to all of the classes in the Jenkins core and installed plugins. The following example is based on `jfr-container-action` but it works in the same way as the other actions. Please note that you will need to provide a directory which contains your groovy scripts not as a single file.
 ```Yaml
       - name: Jenkins pipeline in the container
         id: jenkins_pipeline_container
