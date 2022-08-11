@@ -19,6 +19,9 @@ inputs:
   baseImage:
     description: Jenkins Base Images. Default base image is ghcr.io/jenkinsci/jenkinsfile-runner:master
     required: false    
+  initHook:
+    description: Path to the Groovy init hook directory
+    required: false
 runs:
   using: "composite"
   steps:
@@ -53,6 +56,6 @@ runs:
         image: users-defined-jenkins:latest
         shell: bash
         options: -v ${{ github.workspace }}:/work -w /work --env-file env.list
-        run: /entrypoint.sh "${{inputs.command}}" "${{inputs.jenkinsfile}}" "${{inputs.pluginstxt}}" "${{inputs.jcasc}}"
+        run: /entrypoint.sh "${{inputs.command}}" "${{inputs.jenkinsfile}}" "${{inputs.pluginstxt}}" "${{inputs.jcasc}}" "${{inputs.initHook}}"
     - run: rm env.list
       shell: bash

@@ -20,6 +20,9 @@ inputs:
     description: The plugin cache hit status. If you use actions/cache outside, you can simply give its output as input here.
     required: false
     default: false 
+  initHook:
+    description: Path to the Groovy init hook directory
+    required: false     
 runs:
   using: "composite"
   steps:
@@ -35,5 +38,5 @@ runs:
       run: ls -al /jenkins_new_plugins && cp -r /jenkins_new_plugins/* /usr/share/jenkins/ref/plugins
       shell: bash
     - name: Run Jenkins pipeline in the predefined container
-      run: ${GITHUB_ACTION_PATH}/setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.jcasc}}
+      run: ${GITHUB_ACTION_PATH}/setup.sh ${{inputs.command}} ${{inputs.jenkinsfile}} ${{inputs.jcasc}} ${{inputs.initHook}}
       shell: bash
