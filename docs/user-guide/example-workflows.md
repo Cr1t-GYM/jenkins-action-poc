@@ -15,9 +15,10 @@ nav_order: 5
 {:toc}
 
 There are three common cases about how to play with these actions. Although the user interfaces are similar to each other, there are still some subtle differences. The runtime actions are deprecated now. The users can use the [jfr-container-action](#container-job-action) and [jfr-static-image-action](#docker-container-action).
+
 ## Container job action
 This case is realized by jfr-container-action. If the job uses this action, it will run the Jenkins pipeline and other GitHub Actions in the prebuilt container provided by [ghcr.io/jenkinsci/jenkinsfile-runner:master](https://github.com/jenkinsci/jenkinsfile-runner/pkgs/container/jenkinsfile-runner). The **extra prerequisite** of this action is that you need to declare the image usage of ghcr.io/jenkinsci/jenkinsfile-runner:master at the start of the job.
-```Yaml
+```yaml
 name: Java CI
 on: [push]
 jobs:
@@ -41,7 +42,7 @@ jobs:
           jcasc: jcasc.yml
 ```
 Some users might want to configure the container environment. The recommendation is that you should extend the [ghcr.io/jenkinsci/jenkinsfile-runner:master](https://github.com/jenkinsci/jenkinsfile-runner/pkgs/container/jenkinsfile-runner) vanilla image and then you need to build and push it to your own registry. Finally, you can replace the vanilla image with your own custimized image. The invocation of jfr-container-action can be done in a similar way.
-```Yaml
+```yaml
 name: Java CI
 on: [push]
 jobs:
@@ -64,9 +65,10 @@ jobs:
           pluginstxt: plugins.txt
           jcasc: jcasc.yml
 ```
+
 ## Docker container action
 This case is realized by jfr-static-image-action. This action has its own working environment. It won't have extra environment relationship with the on demand VM outside unless the user mounts other directories to the container (For example, checkout action if exists). After the docker action ends, this container will be deleted. The users may check the introduction of [Docker container action](https://docs.github.com/en/actions/creating-actions/creating-a-docker-container-action#introduction) before using this action.
-```Yaml
+```yaml
 name: Java CI
 on: [push]
 jobs:
@@ -86,9 +88,10 @@ jobs:
           pluginstxt: plugins.txt
           jcasc: jcasc.yml
 ```
+
 ## Runtime action
 This case is realized by the combination of jenkins-setup, jenkins-plugin-installation-action and jenkinsfile-runner-action. It will download all the dependencies and run the pipeline at the host machine directly. Its advantage is that it can support Linux, macOS and Windows runners. Its main disadvantage is the possibility of suffering from a plugins.jenkins.io outage.
-```Yaml
+```yaml
 name: Java CI
 on: [push]
 jobs:
