@@ -1,2 +1,0 @@
-# this file is only for the integration test of the plugin installation manager
-terraform
